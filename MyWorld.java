@@ -1,7 +1,18 @@
 import greenfoot.*;
 
 public class MyWorld extends World {
-    public MyWorld() {
-        super(600, 400, 1);
+    static final int SW = 1672;
+    static final int SH = 941;
+    
+    static final int MAP_W = 1672;
+    static final int MAP_H = 941;
+    
+    int panX = 0;
+    int panY = 0;
+    
+    public MyWorld()
+    {
+        super(SW, SH, 1);
+        Greenfoot.setSpeed(50);
     }
 }
