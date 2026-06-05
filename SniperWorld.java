@@ -19,6 +19,10 @@ public class SniperWorld extends World {
     int zoomviewW = (int)(SW/ZOOM_SCALE);
     int zoomviewH = (int)(SH/ZOOM_SCALE);
     
+    displayColumn hud;
+    zoomView scope;
+    CrosshairActor crosshair;
+    
     GreenfootImage fullBgImage;
     public SniperWorld()
     {
@@ -35,8 +39,13 @@ public class SniperWorld extends World {
         scope = new zoomView(this);
         crosshair = new CrosshairActor();
         
+        addObject(hud, SW/2, SH/2);
+        addObject(scope, SW/2, SH/2);
+        addObject(crosshair, SW/2, SH/2);
         
+        scope.setActive(false);
+        crosshair.setActive(false);
         
-        
+        startLevel(1);
     }
 }
