@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class MyWorld extends World {
+public class SniperWorld extends World {
     //background image size
     static final int SW = 1672;
     static final int SH = 941;
@@ -15,14 +15,12 @@ public class MyWorld extends World {
     
     //zoom
     boolean zoomed = false;
-    int zoomCX = SW / 2;
-    int zoomCY = SH / 2;
     static final double ZOOM_SCALE = 2.5;
     int zoomviewW = (int)(SW/ZOOM_SCALE);
     int zoomviewH = (int)(SH/ZOOM_SCALE);
     
     GreenfootImage fullBgImage;
-    public MyWorld()
+    public SniperWorld()
     {
         super(SW, SH, 1);
         Greenfoot.setSpeed(50);
@@ -33,7 +31,12 @@ public class MyWorld extends World {
     {
         fullBgImage = new GreenfootImage("background_final.png");
         
- 
+        hud = new displayColumn (this);
+        scope = new zoomView(this);
+        crosshair = new CrosshairActor();
+        
+        
+        
         
     }
 }
