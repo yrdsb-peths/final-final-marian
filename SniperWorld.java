@@ -153,7 +153,29 @@ public class SniperWorld extends World {
 
     public void doShooting()
     {
-
+        if (shootCooldown > 0)
+        {
+            return;
+        }
+        
+        boolean spaceNow = Greenfoot.isKeyDown("space");
+        MouseInfo m = Greenfoot.getMouseInfo();
+        boolean leftClickNow = (m != null & m.getButton() == 1 && m.getClickCount() > 0);
+        
+        boolean firePressed = (spaceNow && !prevSpace) || (leftClickNow && zoomed && !prevLeftClick);
+        prevSpace = spaceNow;
+        prevLeftClick = leftClickNow;
+        
+        if (leftClickNow && !zoomed && m != null)
+        {
+            toggleZoom();
+            return;
+        }
+        
+        if (firePressed && zoomed)
+        {
+            fireShot();
+        }
     }
 
     public void fireShot()
