@@ -75,6 +75,24 @@ public class CrosshairActor extends Actor
         img.fillOval(cx - 3, cy - 3, 6, 6);
         img.setColor(new Color(255, 220, 220, alpha));
         img.fillOval(cx - 1, cy - 1, 2, 2);
+        
+        int blen = 9;
+        int boff = 18;
+        img.setColor(new Color(255, 100, 50, Math.max(0, alpha - 30)));
+        
+        img.drawLine(cx - boff, cy - boff, cx - boff + blen, cy - boff);
+        img.drawLine(cx - boff, cy - boff, cx - boff, cy - boff + blen);
+        
+        img.drawLine(cx + boff, cy - boff, cx + boff - blen, cy - boff);
+        img.drawLine(cx + boff, cy - boff, cx + boff, cy - boff + blen);
+        
+        img.drawLine(cx - boff, cy + boff, cx - boff + blen, cy + boff);
+        img.drawLine(cx - boff, cy + boff, cx - boff, cy + boff - blen);
+        
+        img.drawLine(cx + boff, cy + boff, cx + boff - blen, cy + boff);
+        img.drawLine(cx + boff, cy + boff, cx + boff, cy + boff - blen);
+        
+        setImage(img);
     }
     
     
