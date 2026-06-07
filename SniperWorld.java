@@ -238,11 +238,75 @@ public class SniperWorld extends World {
 
     public void killAllien(Alien a)
     {
-
+        a.alive = false;
+        aliensRemaining--;
+        int pts = 100 + currentLevel * 20;
+        score += pts;
+        showBanner ("HIT! +" + pts + " pts - " + aliensRemaining + " left", 80);
+        
+        if (aliensRemaining <= 0)
+        {
+            int bonus = Math.max(0, 300 * lives);
+            sscore += bonus;
+            gamePhase = "LEVEL FINISHED";
+            showBanner("LEVEL " + currentLevel + " CLEAR! BONUS +" + bonus + " SPACE to continue", 9999);
+            zoomed = false;
+            scope.setActive(false);
+            crosshair.setActive(false);
+        }
+    }
+    public void showBanner(String text, int ticks)
+    {
+        bannerText = text;
+        bannerTimer = ticks;
     }
     
-    static int clamp(int a, int b, int c)
+    public String heartsStr(int lives)
+    {
+        return (lives >= 3 ? "♥♥♥" : lives == 2 ? "♥♥" : lives == 1 ? "♥" : "");
+    }
+    
+    public int getLevel()
+    {
+        return currentLevel;
+    }
+    
+    public int getAliensLeft()
+    {
+        return aliensRemaining;
+    }
+    
+    public int getTotalAliens()
+    {
+        return totalAliensThisLevel;
+    }
+    
+    public int getScore()
+    {
+        return score;
+    }
+    
+    public int getShots()
+    {
+        return shotsFired;
+    }
+    public static int clamp(int a, int b, int c)
     {
         return Math.max(b, Math.min(c, a));
     }
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
