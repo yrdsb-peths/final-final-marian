@@ -355,6 +355,21 @@ public class SniperWorld extends World {
         
     }
     
+    
+    
+    public boolean tooClose(int mx, int my, int m)
+    {
+        for (Alien a : aliens)
+        {
+            int dx = a.mapX - mx;
+            int dy = a.mapY - my;
+            if (dx * dx + dy * dy < m * m)
+            {
+                return true;
+            }
+        }
+    }
+    
     public void restartGame()
     {
         currentLevel = 1;
