@@ -24,11 +24,32 @@ public class SniperWorld extends World {
     int prevMouseX = SW/2;
     int prevMouseY = SH/2;
     static final int ZOOM_PAN_SPEED = 4;
+    
+    int currentLevel = 1;
+    static final int MAX_LEVEL = 10;
+    int aliensRemaining = 0;
+    int totalAliensThisLevel = 0;
+    int score = 0;
+    int shotsFired = 0;
+    int lives = 3;
+    
+    String gamePhase = "PLAYING";
+    
+    String bannerText = "";
+    int bannerTimer = 0;
+    int shootCooldown = 0;
+    
+    List<Alien> aliens = new ArrayList<>();
 
     displayColumn hud;
     zoomView scope;
     CrosshairActor crosshair;
 
+    boolean prevZ = false;
+    boolean prevSpace = false;
+    boolean prevLeftClick = false;
+    
+    
     GreenfootImage fullBgImage;
     public SniperWorld()
     {
@@ -180,7 +201,39 @@ public class SniperWorld extends World {
 
     public void fireShot()
     {
-
+        shootCooldown = 15;
+        shotsFired++;
+        
+        int targetMapX = zoomPanX + zoomViewW / 2;
+        int targetMapY = zoomPanY + zoomViewH / 2;
+        
+        int hitR = 35;
+        boolean hit = false;
+        
+        for(Alien a : aliens)
+        {
+            if (!a.alive) continue;
+            int dx = a.mapX - targetMapX;
+            int dy = a.mapY - targetMapY;
+            
+            if (dx * dx + dy * dy <= hitR * hitR)
+            {
+                killAlien(a);
+                hit = true;
+                break;
+            }
+        }
+        
+        if (!hit)
+        {
+            lives--;
+            showBanner("MISSED ! Lives: " + heartsStr(lives), 90);
+            if(lives <= 0)
+            {
+                gamePhase = "GAME OVER";
+                showBanner("GAME OVER - Press R to Restart", 9999);
+            }
+        }
     }
 
     public void killAllien(Alien a)
