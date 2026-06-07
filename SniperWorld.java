@@ -291,8 +291,42 @@ public class SniperWorld extends World {
             int srcH = zoomViewH;
             
             GreenfootImage view = new GreenfootImage(SW, SH);
+            GreenfootImage cropped = new GreenfootImage(srcW, srcH);
+            cropped.drawImage(fullBgImage, -srcX, -srcY);
+            cropped.scale(SW, SH);
+            view.drawImage(cropped, 0, 0);
+            setBackground(view);
             
-        }
+            for (Alien a : aliens)
+            {
+                int screenX = (int) ((a.mapX - srcX) * ZOOM_SCALE);
+                int screenY = (int) ((a.mapY - srcY) * ZOOM_SCALE);
+                a.setLocation(screenX, screenY);
+                
+                boolean inCircle = isInScopeCircle(screenX, screenY);
+                a.setHidden(! (inCircle && a.alive));
+            }
+        } else
+            {
+               GreenfootImage view = new GreenfootImage(SW, SH);
+               view.drawImage(fullBgImage, -panX, -panY);
+               setBackground(view);
+               
+               for (Alien a : aliens)
+               {
+                   a.setLocation(a.mapX - panX, a.mapY - panY);
+                   a.setHidden(false);
+               }
+            }
+        
+    }
+    
+    public boolean isInScopeCircle(int sx, int sy)
+    {
+        int dx = sx - SW / 2;
+        int dy = sy - SY / 2;
+        int r = zoomView.RADIUS;
+        return dx * dx + dy * dy <= r * r;
     }
     
     public void showBanner(String text, int ticks)
@@ -363,17 +397,6 @@ public class SniperWorld extends World {
 
     
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 }
