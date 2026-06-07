@@ -1,4 +1,6 @@
 import greenfoot.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SniperWorld extends World {
     //background image size
@@ -261,6 +263,11 @@ public class SniperWorld extends World {
         bannerTimer = ticks;
     }
     
+    public static int clamp(int a, int b, int c)
+    {
+        return Math.max(b, Math.min(c, a));
+    }
+    
     public String heartsStr(int lives)
     {
         return (lives >= 3 ? "♥♥♥" : lives == 2 ? "♥♥" : lives == 1 ? "♥" : "");
@@ -290,10 +297,32 @@ public class SniperWorld extends World {
     {
         return shotsFired;
     }
-    public static int clamp(int a, int b, int c)
+    
+    public int getLives()
     {
-        return Math.max(b, Math.min(c, a));
+        return lives;
     }
+    
+    public String getBanner()
+    {
+        return bannerText;
+    }
+    
+    public boolean bannerVisible()
+    {
+        return bannerTimer > 0;
+    }
+    
+    public String getPhase()
+    {
+        return gamePhase;
+    }
+    
+    public boolean isZoomed()
+    {
+        return zoomed;
+    }
+
     
 
     
