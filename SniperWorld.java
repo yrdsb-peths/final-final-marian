@@ -329,6 +329,39 @@ public class SniperWorld extends World {
         return dx * dx + dy * dy <= r * r;
     }
     
+    public void startLevel(int level)
+    {
+        for (Alien a : aliens)
+        {
+            removeObject(a);
+        }
+        aliens.clear();
+        
+        gamePhase = "PLAYING";
+        zoomed = false;
+        scope.setActive(false);
+        crosshair.setActive(false);
+        panX = 0;
+        panY = 0;
+        lives = 3;
+        shotsFired = 0;
+        
+        drawBackground();
+        
+        int count = getStartAlienCount(level);
+        aliensRemaining = count;
+        totalAliensThisLevel = count;
+        
+        
+    }
+    
+    public void restartGame()
+    {
+        currentLevel = 1;
+        score = 0;
+        startLevel(1);
+    }
+    
     public void showBanner(String text, int ticks)
     {
         bannerText = text;
