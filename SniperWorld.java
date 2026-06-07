@@ -276,7 +276,24 @@ public class SniperWorld extends World {
         }
     }
     
-    
+    public void drawBackground()
+    {
+        if (fullBgImage == null)
+        {
+            return;
+        }
+        
+        if (zoomed)
+        {
+            int srcX = zoomPanX;
+            int srcY = zoomPanY;
+            int srcW = zoomViewW;
+            int srcH = zoomViewH;
+            
+            GreenfootImage view = new GreenfootImage(SW, SH);
+            
+        }
+    }
     
     public void showBanner(String text, int ticks)
     {
