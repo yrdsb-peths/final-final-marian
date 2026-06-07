@@ -257,6 +257,27 @@ public class SniperWorld extends World {
             crosshair.setActive(false);
         }
     }
+    
+    public void doAlienTick()
+    {
+        List<Alien> toRemove = new ArrayList<>();
+        for (Alien a : aliens)
+        {
+            a.tick(currentLevel);
+            if (a.readyToRemove())
+            {
+                toRemove.add(a);
+            }
+        }
+        for (Alien a : toRemove)
+        {
+            removeObject(a);
+            aliens.remove(a);
+        }
+    }
+    
+    
+    
     public void showBanner(String text, int ticks)
     {
         bannerText = text;
