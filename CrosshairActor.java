@@ -95,6 +95,14 @@ public class CrosshairActor extends Actor
         setImage(img);
     }
     
+    public void buildOff()
+    {
+        GreenfootImage img = new GreenfootImage(1,1);
+        img.setColor(new Color(0,0,0,0));
+        img.fill();
+        setImage(img);
+    }
+    
     
     
     
