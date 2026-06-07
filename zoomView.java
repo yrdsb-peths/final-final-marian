@@ -8,10 +8,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class zoomView extends Actor
 {
-    /**
-     * Act - do whatever the zoomView wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    
+    static final int RADIUS = 200;
+    static final int IMG_W = SniperWorld.SW;
+    static final int IMG_H = SniperWorld.SH;
+    
+    boolean active = false;
+    SniperWorld world;
+    
+    public zoomView(SniperWorld w)
+    {
+        this.world = w;
+        buildOff();
+    }
+    
     public void act()
     {
         // Add your action code here.

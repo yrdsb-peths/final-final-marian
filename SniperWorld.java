@@ -357,6 +357,59 @@ public class SniperWorld extends World {
     
     
     
+    public int getStartAlienCount(int level)
+    {
+        return 5 + level;
+    }
+    
+    public Color sampleBgColor(int mx, int my)
+    {
+        if (fullBgImage == null)
+        {
+            return new Color(80, 120, 60);
+            int px = clamp(mx, 0, MAP_W - 1);
+            int py = clamp(my, 0, MAP_H - 1);
+            return fullBgImage.getColorAt(px, py);
+        }
+    }
+    
+    
+    
+    public int chooseAlienType(int level, int index)
+    {
+        if (level <= 2)
+        {
+            return 0;
+        }
+        
+        if (level <= 4)
+        {
+            return (index % 2 == 0) ? 0 : 1;
+        }
+        
+        if (level <= 6)
+        {
+            return index % 3;
+        }
+        
+        int r = Greenfoot.getRandomNumber(10);
+        if (r < 2)
+        {
+            return 0;
+        }
+        
+        if (r < 5)
+        {
+            return 1;
+        }
+        
+        if (r < 8)
+        {
+            return 2;
+        }
+        return 3;
+    }
+    
     public boolean tooClose(int mx, int my, int m)
     {
         for (Alien a : aliens)
@@ -367,6 +420,7 @@ public class SniperWorld extends World {
             {
                 return true;
             }
+            return false;
         }
     }
     

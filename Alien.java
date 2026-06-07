@@ -8,10 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Alien extends Actor
 {
-    /**
-     * Act - do whatever the Alien wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    int mapX;
+    int mapY;
+    int type;
+    int level;
+    
+    
     public void act()
     {
         // Add your action code here.
