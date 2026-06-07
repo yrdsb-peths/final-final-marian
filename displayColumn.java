@@ -47,5 +47,13 @@ public class displayColumn extends Actor
                 img.drawString(zs, W / 2 - zs.length() * 4, 42);
             }
         }
+        
+        int total = world.getTotalAliens();
+        int left = world.getAliensLeft();
+        int found = total - left;
+        
+        if (total > 0 && (phase.equals("PLAYING") || phase.equals("LEVEL_DONE"))) {
+            drawAlienCounter(img, total, left, found);
+        }
     }
 }
