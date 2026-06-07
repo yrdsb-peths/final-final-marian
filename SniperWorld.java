@@ -2,8 +2,8 @@ import greenfoot.*;
 
 public class SniperWorld extends World {
     //background image size
-    static final int SW = 1672;
-    static final int SH = 941;
+    static final int SW = 1370;
+    static final int SH = 770;
     
     static final int MAP_W = 1672;
     static final int MAP_H = 941;
@@ -94,7 +94,31 @@ public class SniperWorld extends World {
     
     public void doZoom()
     {
+        boolean zNow = Greenfoot.isKeyDown("z");
+        if (zNow && !prevZ)
+        {
+            toggleZoom();
+        }
+        prevZ = zNow;
         
+        MouseInfo m = Greenfoot.getMouseInfo();
+        if (m != null && m.getButton() == 3 && m.getClickCount() > 0)
+        {
+            toggleZoom();
+        }
+        
+        if (zoomed)
+        {
+            if(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
+            if(Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
+            if(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("w")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewH);
+            if(Greenfoot.isKeyDown("down") || Greenfoot.isKeyDown("s")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewH);
+            
+            crosshair.setLocation(SW / 2, SH / 2);
+            scope.setLocation(SW / 2, SH / 2);
+            
+            drawBackground();
+        }
     }
     
     public void toggleZoom()
