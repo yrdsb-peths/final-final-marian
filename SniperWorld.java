@@ -84,8 +84,20 @@ public class SniperWorld extends World {
         {
             doPanning();
             doZoom();
-
+            doShooting();
+            doAlienTick();
+            if(shootCooldown > 0)
+            {
+                shootCooldown--;
+            }
+            
+            if(bannerTimer > 0)
+            {
+                bannerTimer--;
+            }
+            drawBackground();
         }
+        else if (gamePhase.equals("LEVEL FINISHED"))
     }
 
     public void doPanning()
@@ -220,7 +232,7 @@ public class SniperWorld extends World {
             
             if (dx * dx + dy * dy <= hitR * hitR)
             {
-                killAlien(a);
+                killAllien(a);
                 hit = true;
                 break;
             }
@@ -249,7 +261,7 @@ public class SniperWorld extends World {
         if (aliensRemaining <= 0)
         {
             int bonus = Math.max(0, 300 * lives);
-            sscore += bonus;
+            score += bonus;
             gamePhase = "LEVEL FINISHED";
             showBanner("LEVEL " + currentLevel + " CLEAR! BONUS +" + bonus + " SPACE to continue", 9999);
             zoomed = false;
@@ -324,7 +336,7 @@ public class SniperWorld extends World {
     public boolean isInScopeCircle(int sx, int sy)
     {
         int dx = sx - SW / 2;
-        int dy = sy - SY / 2;
+        int dy = sy - SH / 2;
         int r = zoomView.RADIUS;
         return dx * dx + dy * dy <= r * r;
     }
@@ -367,10 +379,11 @@ public class SniperWorld extends World {
         if (fullBgImage == null)
         {
             return new Color(80, 120, 60);
-            int px = clamp(mx, 0, MAP_W - 1);
-            int py = clamp(my, 0, MAP_H - 1);
-            return fullBgImage.getColorAt(px, py);
         }
+        int px = clamp(mx, 0, MAP_W - 1);
+        int py = clamp(my, 0, MAP_H - 1);
+        return fullBgImage.getColorAt(px, py);
+        
     }
     
     
@@ -420,8 +433,10 @@ public class SniperWorld extends World {
             {
                 return true;
             }
-            return false;
+
         }
+        
+        return false;
     }
     
     public void restartGame()

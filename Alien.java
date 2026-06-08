@@ -24,7 +24,7 @@ public class Alien extends Actor
     int tickCount = 0;
     int bobOffset = 0;
     
-    boolean peaking = false;
+    boolean peeking = false;
     int peekTimer = 0;
     int peekCooldown;
     
@@ -272,13 +272,124 @@ public class Alien extends Actor
         
         return img;
     }
-    public void act()
+    
+    public void tick(int level)
     {
-        // Add your action code here.
+        tickCount++;
+        
+        if(!alive)
+        {
+            deathTick++;
+            if(deathTick <= DEATH_DUR)
+            {
+                double scale = 1.0 - (double) deathTick / DEATH_DUR;
+                int iw = baseSize() + 20;
+                int ih = baseSize() + baseSize() * 3/4 + 16;
+                int nw = Math.max(1, (int)(iw * scale));
+                int nh = Math.max(1, (int)(ih * scale));
+                GreenfootImage d = new GreenfootImage(imgDead);
+                d.scale(nw, nh);
+                setImage(d);
+            }
+            return;
+        }
+        
+        int phase = tickCount + swayPhase;
+
+        while(phase >= 60)
+        {
+            phase = phase - 60;
+        }
+        
+        if(phase < 30)
+        {
+            bobOffset = 1;
+        }
+        else
+        {
+            bobOffset = 0;
+        }
+        
+        SniperWorld w = (SniperWorld) getWorld();
+        if(w != null)
+        {
+            if(w.isZoomed() == false)
+            {
+                int sx = mapX - w.panX;
+                int sy = mapY - w.panY + bobOffset;
+                setLocation(sx, sy);
+            }
+        }
+        
+        
+        int remainder = tickCount;
+
+        while(remainder >= peekCooldown)
+        {
+            remainder = remainder - peekCooldown;
+        }
+        
+        if(peeking == false && remainder == 0)
+        {
+            peeking = true;
+        
+            int t = 30 - level * 2;
+        
+            if(t < 8)
+            {
+                peekTimer = 8;
+            }
+            else
+            {
+                peekTimer = t;
+            }
+        
+            setImage(imgPeek);
+        }
+        
+        if(peeking)
+        {
+            peekTimer--;
+            if(peekTimer <= 0)
+            {
+                peeking = false;
+                setImage(imgNormal);
+            }
+        }
+    }
+    
+    
+    public boolean readyToRemove()
+    {
+        return !alive && deathTick > DEATH_DUR + 5;
     }
     
     public int clamp(int a, int b, int c)
     {
         return Math.max(b, Math.min(c,a));
+    }
+    
+    public void setHidden(boolean hide)
+    {
+        hidden = hide;
+        if(hide)
+        {
+            setImage(new GreenfootImage(1,1));
+        }
+        else
+        {
+            if(!alive)
+            {
+                setImage(imgDead);
+            }
+            else if (peeking)
+            {
+                setImage(imgPeek);
+            }
+            else
+            {
+                setImage(imgNormal);
+            }
+        }
     }
 }
