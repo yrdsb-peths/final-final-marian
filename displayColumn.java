@@ -55,5 +55,37 @@ public class displayColumn extends Actor
         if (total > 0 && (phase.equals("PLAYING") || phase.equals("LEVEL_DONE"))) {
             drawAlienCounter(img, total, left, found);
         }
+        
+        img.setColor(new Color(0, 0, 0, 190));
+        img.fillRect(0, H - 48, W, 48);
+        img.setColor(new Color(60, 200, 60, 200));
+        img.drawLine(0, H - 48, W, H - 48);
+
+        img.setFont(new Font("Times New Roman", true, false, 16));
+
+        img.setColor(new Color(180, 255, 140));
+        img.drawString("LV " + world.getLevel() + "/10", 12, H - 18);
+
+        img.setColor(new Color(100, 220, 255));
+        img.drawString("SCORE: " + world.getScore(), 120, H - 18);
+
+        img.setColor(new Color(255, 80, 80));
+        img.drawString("LIVES: " + heartsStr(world.getLives()), 330, H - 18);
+
+        img.setColor(new Color(200, 180, 255));
+        img.drawString("SHOTS: " + world.getShots(), 520, H - 18);
+
+        img.setColor(new Color(255, 220, 80));
+        img.drawString("ALIENS: " + left + "/" + total, 700, H - 18);
+        
+        if(world.bannerVisible())
+        {
+            drawBanner(img, world.getBanner());
+        }
+        
+        if(phase.equals("GAME OVER"))
+        {
+            drawBigOverlay(img, "GAME OVER", "Score: " + world.getScore(), 
+        }
     }
 }
