@@ -208,6 +208,69 @@ public class Alien extends Actor
             int by = h/2;
             img.fillOval(bx, by, s*2/3, s/3);
         }
+        
+        img.setColor(antColor);
+        img.drawLine(cx - 6, 10, cx - 13, 1);
+        img.drawLine(cx + 6, 10, cx + 13, 1);
+        
+        Color orbColor;
+        if(peek)
+        {
+            orbColor = new Color(255, 255, 100, 240);
+        }
+        else
+        {
+            orbColor = eyeColor;
+        }
+        img.setColor(orbColor);
+        img.fillOval(cx - 17, -3, 8, 8);
+        img.fillOval(cx + 9,  -3, 8, 8);
+        
+        img.setColor(shineColor);
+        img.fillOval(cx - 16, -2, 3, 3);
+        img.fillOval(cx + 10, -2, 3, 3);
+        
+        //Eyes
+        img.setColor(new Color(15, 15, 15, alpha));  
+        img.fillOval(cx - 11, s/3 - 1, 10, 10);
+        img.fillOval(cx + 1,  s/3 - 1, 10, 10);
+        
+        img.setColor(eyeColor);
+        img.fillOval(cx - 10, s/3, 8, 8);
+        img.fillOval(cx + 2,  s/3, 8, 8);
+        
+        img.setColor(shineColor);
+        img.fillOval(cx - 9,  s/3 + 1, 3, 3);
+        img.fillOval(cx + 3,  s/3 + 1, 3, 3);
+        
+        if (dead)
+        {
+            img.setColor(new Color(220, 30, 30, 200));
+            img.drawLine(cx-11, s/3-1, cx-1, s/3+9);
+            img.drawLine(cx-11, s/3+9, cx-1, s/3-1);
+            img.drawLine(cx+1, s/3-1, cx+11, s/3+9);
+            img.drawLine(cx+1, s/3+9, cx+11, s/3-1);
+        }
+        
+        //arms
+        img.setColor(outlineColor);
+        img.drawLine(cx - s/2, h/2 + 4, cx - s/2 - 8, h/2 + 14);
+        img.drawLine(cx + s/2 - 1, h/2 + 4, cx + s/2 + 7, h/2 + 14);
+        
+        //hand
+        img.setColor(bodyColor);
+        img.fillOval(cx - s/2 - 10, h/2 + 12, 6, 6);
+        img.fillOval(cx + s/2 + 5,  h/2 + 12, 6, 6);
+        
+        //feet
+        img.setColor(bodyColor);
+        img.fillOval(cx - s/3 - 2, h - 4, s/3, 8);
+        img.fillOval(cx + 2, h - 4, s/3, 8);
+        img.setColor(outlineColor);
+        img.drawOval(cx - s/3 - 2, h - 4, s/3, 8);
+        img.drawOval(cx + 2, h - 4, s/3, 8);
+        
+        return img;
     }
     public void act()
     {
