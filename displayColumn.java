@@ -108,4 +108,41 @@ public class displayColumn extends Actor
         }
         setImage(img);
     }
+    
+    public void drawAlienCounter(GreenfootImage img, int total, int left, int found)
+    {
+        int iconSize = 24;
+        int spacing = 30;
+        int totalWidth = total * spacing;
+        int startX = W / 2 - totalWidth/2;
+        int y = 58;
+        
+        
+    }
+    
+    public void drawMiniAlien(GreenfootImage img, int cx, int cy, int size, boolean killed)
+    {
+        
+    }
+    
+    public void drawBanner(GreenfootImage img, String text)
+    {
+        
+    }
+    
+    public void drawBigOverlay(GreenfootImage img, String title, String sub, String hint, Color panelColor)
+    {
+        
+    }
+    
+    public String heartsStr(int lives)
+    {
+        
+    }
+    
+    
+    
+    
+    
+    
 }
