@@ -74,7 +74,23 @@ public class Alien extends Actor
     
     public int baseSize()
     {
-        
+        if (type == 0)
+        {
+            return 36;
+        }
+        else if (type == 1)
+        {
+            return 30;
+        }
+        else if (type == 2)
+        {
+            return 26;
+        }
+        else if (type == 3)
+        {
+            return 22;
+        }
+        return 30;
     }
     
     public GreenfootImage makeImage(boolean peek, boolean dead)
