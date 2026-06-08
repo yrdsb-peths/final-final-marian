@@ -95,10 +95,127 @@ public class Alien extends Actor
     
     public GreenfootImage makeImage(boolean peek, boolean dead)
     {
+        int s = baseSize();
+        int h = s + s*3 /4;
+        int iw = s+20;
+        int ih = h+16;
         
+        GreenfootImage img = new GreenfootImage(iw, ih);
+        
+        img.setColor(new Color(0,0,0,0));
+        img.fill();
+        
+        int cx = iw / 2;
+        
+        int shift;
+        int alpha;
+        
+        if (type == 0)
+        {
+            shift = 85;
+            alpha = 245;
+        }
+        else if (type == 1)
+        {
+            shift = 45;
+            alpha = 220;
+        }
+        else if (type == 2)
+        {
+            shift = 28;
+            alpha = 195;
+        }
+        else if (type == 3)
+        {
+            shift = 15;
+            alpha = 140;
+        }
+        else
+        {
+            shift = 60;
+            alpha = 230;
+        }
+        
+        int br;
+        int bg;
+        int bb;
+        
+        if(useCamo == false)
+        {
+            br = 50 + type * 10;
+            bg = 200 - type * 20;
+            bb = 50;
+        }
+        else
+        {
+            int brightness = (bgR + bgG + bgB) / 3;
+            if (brightness > 128) {
+                br = clamp(bgR - shift, 0, 255);
+                bg = clamp(bgG - shift + 20, 0, 255);
+                bb = clamp(bgB - shift + 10, 0, 255);
+            } 
+            else {
+                br = clamp(bgR + shift, 0, 255);
+                bg = clamp(bgG + shift, 0, 255);
+                bb = clamp(bgB + shift / 2, 0, 255);
+            }
+        }
+        
+        int er = clamp(255 - br + 80, 0, 255);
+        int eg = clamp(60, 0, 255);
+        int eb = clamp(255 - bb, 0, 255);
+        
+        if (peek)
+        {
+            br = clamp(br + 70, 0, 255);
+            bg = clamp(bg + 70, 0, 255);
+            bb = clamp(bb + 70, 0, 255);
+            alpha = Math.min(255, alpha + 60);
+        }
+        
+        if (dead)
+        {
+            br = 180; bg = 50; bb = 50;
+            alpha = 190;
+        }
+        
+        Color bodyColor = new Color(br, bg, bb, alpha);
+        Color outlineColor = new Color(clamp(br-30,0,255), clamp(bg-30,0,255), clamp(bb-30,0,255), alpha);
+        Color eyeColor = new Color(er, eg, eb, Math.min(255, alpha + 20));
+        Color shineColor = new Color(255, 255, 255, Math.min(255, alpha));
+        Color antColor = new Color(clamp(br+20,0,255), clamp(bg+20,0,255), clamp(bb+20,0,255), alpha);
+        
+        
+        
+        if (!dead) {
+            Color glowColor = new Color(br, bg, bb, alpha / 5);
+            img.setColor(glowColor);
+            img.fillOval(cx - s/2 - 4, h/3 - 4, s + 8, h * 2/3 + 8);
+        }
+        
+        img.setColor(bodyColor);
+        img.fillOval(cx - s/2, h/3, s, h*2/3);
+        img.fillOval(cx - s*2/5, 6, s*4/5, s*4/5);
+        
+        img.setColor(outlineColor);
+        img.drawOval(cx - s/2, h/3, s, h*2/3);
+        img.drawOval(cx - s*2/5, 6, s*4/5, s*4/5);
+        
+        if (!dead) {
+            Color stripeColor = new Color(clamp(br+15,0,255), clamp(bg+15,0,255), clamp(bb+15,0,255), alpha/2);
+            img.setColor(stripeColor);
+            int bx = cx - s/3;
+            int by = h/2;
+            img.fillOval(bx, by, s*2/3, s/3);
+        }
     }
     public void act()
     {
         // Add your action code here.
+    }
+    
+    public int clamp(int a, int b, int c)
+    {
+        return Math.max(b, Math.min(c,a));
     }
 }
