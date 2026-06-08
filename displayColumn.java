@@ -85,7 +85,27 @@ public class displayColumn extends Actor
         
         if(phase.equals("GAME OVER"))
         {
-            drawBigOverlay(img, "GAME OVER", "Score: " + world.getScore(), 
+            drawBigOverlay(img, "GAME OVER", "Score: " + world.getScore(), "Press R to Restart", new Color(140,20,20,220));
+        } else if (phase.equals("YOU WIN"))
+        {
+            drawBigOverlay(img, "YOU WIN!", "Final Score: " + world.getScore(), "Press R to Play Again", new Color(20,60,180,220));
+        } else if (phase.equals("LEVEL DOWN"))
+        {
+            img.setColor(new Color(0, 0, 0, 145));
+            img.fillRect(W / 2 - 290, H / 2 - 58, 580, 82);
+            img.setColor(new Color(80, 230, 80, 210));
+            img.drawRect(W / 2 - 290, H / 2 - 58, 580, 82);
+
+            img.setColor(new Color(155, 255, 110));
+            img.setFont(new Font("Times New Roman", true, false, 30));
+            String s = "LEVEL " + world.getLevel() + " CLEAR!";
+            img.drawString(s, W / 2 - s.length() * 17 / 2, H / 2 - 15);
+
+            img.setColor(new Color(220, 255, 190));
+            img.setFont(new Font("Times New Roman", false, false, 16));
+            String hint = "Press SPACE or ENTER to continue";
+            img.drawString(hint, W / 2 - hint.length() * 9 / 2, H / 2 + 16);
         }
+        setImage(img);
     }
 }
