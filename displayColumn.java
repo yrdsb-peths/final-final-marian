@@ -117,16 +117,56 @@ public class displayColumn extends Actor
         int startX = W / 2 - totalWidth/2;
         int y = 58;
         
+        img.setColor(new Color(0,0,0,150));
+        img.fillRect(startX - 12, y-8, totalWidth+12, iconSize+16);
+        img.setColor(new Color(80,200,80,120));
+        img.drawRect(startX - 12, y-8, totalWidth+12, iconSize+16);
         
+        img.setFont(new Font("Times New Roman", true, false, 12));
+        img.setColor(new Color(255,230,100,200));
+        img.drawString("TARGETS:", startX-80, y+16);
+        
+        for (int i = 0; i < total; i++)
+        {
+            int ix = startX + i*spacing;
+            boolean killed = i < found;
+            drawMiniAlien(img, ix+iconSize/2, y+iconSize/2, iconSize, killed);
+        }
     }
     
     public void drawMiniAlien(GreenfootImage img, int cx, int cy, int size, boolean killed)
     {
+        int s = size;
+        int r = s/2;
         
+        if(killed)
+        {
+            img.setColor(new Color(120, 120, 120, 150));
+            img.fillOval(cx - r, cy - r, s, s);
+            img.setColor(new Color(200, 60, 60, 200));
+            img.drawLine(cx - r + 2, cy - r + 2, cx + r - 2, cy + r - 2);
+            img.drawLine(cx + r - 2, cy - r + 2, cx - r + 2, cy + r - 2);
+        }
+        else
+        {
+            img.setColor(new Color(40, 220, 60, 230));
+            img.fillOval(cx - r, cy - r + 2, s, s - 2);
+            img.setColor(new Color(255, 40, 40, 240));
+            img.fillOval(cx - 4, cy - 2, 3, 3);
+            img.fillOval(cx + 1, cy - 2, 3, 3);
+            img.setColor(new Color(40, 200, 40, 200));
+            img.drawLine(cx - 2, cy - r + 2, cx - 5, cy - r - 2);
+            img.drawLine(cx + 2, cy - r + 2, cx + 5, cy - r - 2);
+        }
     }
     
     public void drawBanner(GreenfootImage img, String text)
     {
+        int tw = text.length() * 11;
+        int bx = W/2 - tw/2-24;
+        int bw = tw + 48;
+        int by = H/2-32;
+        
         
     }
     
