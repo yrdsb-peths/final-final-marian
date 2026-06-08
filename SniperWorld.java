@@ -98,6 +98,33 @@ public class SniperWorld extends World {
             drawBackground();
         }
         else if (gamePhase.equals("LEVEL FINISHED"))
+        {
+            if(bannerTimer > 0)
+            {
+                bannerTimer--;
+            }
+            drawBackground();
+            if (Greenfoot.isKeyDown("space") || Greenfoot.isKeyDown("enter"))
+            {
+                if (currentLevel >= MAX_LEVEL)
+                {
+                    gamePhase = "YOU WIN";
+                }
+                else
+                {
+                    currentLevel++;
+                    startLevel(currentLevel);
+                }
+            }
+        }
+        else if (gamePhase.equals("GAME OVER") || gamePhase.equals("YOU WIN"))
+        {
+            if (Greenfoot.isKeyDown("r"))
+            {
+                restartGame();
+            }
+        }
+        hud.refresh();
     }
 
     public void doPanning()
@@ -113,10 +140,10 @@ public class SniperWorld extends World {
             panX += speed;
 
         if (Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("w"))
-            panX -= speed;
+            panY -= speed;
 
         if (Greenfoot.isKeyDown("down") || Greenfoot.isKeyDown("s"))
-            panX += speed;
+            panY += speed;
 
         panX = clamp(panX, 0, MAP_W - SW);
         panY = clamp(panY, 0, MAP_H - SH);
@@ -144,10 +171,10 @@ public class SniperWorld extends World {
 
         if (zoomed)
         {
-            if(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
-            if(Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
-            if(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("w")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewH);
-            if(Greenfoot.isKeyDown("down") || Greenfoot.isKeyDown("s")) zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewH);
+            if (Greenfoot.isKeyDown("left")  || Greenfoot.isKeyDown("a"))  zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
+            if (Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d"))  zoomPanX = clamp(zoomPanX + ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
+            if (Greenfoot.isKeyDown("up")    || Greenfoot.isKeyDown("w"))  zoomPanY = clamp(zoomPanY - ZOOM_PAN_SPEED, 0, MAP_H - zoomViewH);
+            if (Greenfoot.isKeyDown("down")  || Greenfoot.isKeyDown("s"))  zoomPanY = clamp(zoomPanY + ZOOM_PAN_SPEED, 0, MAP_H - zoomViewH);
 
             crosshair.setLocation(SW / 2, SH / 2);
             scope.setLocation(SW / 2, SH / 2);
@@ -195,7 +222,7 @@ public class SniperWorld extends World {
         
         boolean spaceNow = Greenfoot.isKeyDown("space");
         MouseInfo m = Greenfoot.getMouseInfo();
-        boolean leftClickNow = (m != null & m.getButton() == 1 && m.getClickCount() > 0);
+        boolean leftClickNow = (m != null && m.getButton() == 1 && m.getClickCount() > 0);
         
         boolean firePressed = (spaceNow && !prevSpace) || (leftClickNow && zoomed && !prevLeftClick);
         prevSpace = spaceNow;
@@ -364,6 +391,51 @@ public class SniperWorld extends World {
         aliensRemaining = count;
         totalAliensThisLevel = count;
         
+        int marginX = zoomViewW / 2;
+        int marginY = zoomViewH / 2;
+        int spawnW = MAP_W - marginX * 2;
+        int spawnH = MAP_H - marginY * 2;
+
+        int noCamoA = Greenfoot.getRandomNumber(count);
+        int noCamoB = Greenfoot.getRandomNumber(count);
+        
+        while (noCamoB == noCamoA && count > 1) {
+            noCamoB = Greenfoot.getRandomNumber(count);
+        }
+        
+        for (int i = 0; i < count; i++)
+        {
+            int mx = 0;
+            int my = 0;
+            int tries = 0;
+            
+            while (tries < 60) {
+                mx = marginX + Greenfoot.getRandomNumber(spawnW);
+                my = marginY + Greenfoot.getRandomNumber(spawnH);
+            
+                if (!tooClose(mx, my, 90)) {
+                    break;
+                }
+            
+                tries++;
+            }
+
+            int type = chooseAlienType(level, i);
+            Color bgColor;
+            if (i == noCamoA || i == noCamoB)
+            {
+                bgColor = null;
+            }
+            else
+            {
+                bgColor = sampleBgColor(mx, my);
+            }
+            Alien alien = new Alien(mx, my, type, level, bgColor);
+            aliens.add(alien);
+            addObject(alien, mx - panX, my - panY);
+            
+            showBanner("LEVEL " + level + "  Find " + count + " aliens!", 160);
+        }
         
     }
     
