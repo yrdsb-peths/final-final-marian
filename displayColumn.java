@@ -167,22 +167,60 @@ public class displayColumn extends Actor
         int bw = tw + 48;
         int by = H/2-32;
         
+        img.setColor(new Color(0, 0, 0, 165));
+        img.fillRect(Math.max(0, bx), by, Math.min(W, bw), 54);
+        img.setColor(new Color(255, 230, 60, 220));
+        img.drawRect(Math.max(0, bx), by, Math.min(W, bw), 54);
         
+        img.setColor(new Color(255, 255, 130));
+        img.setFont(new Font("Times New Roman", true, false, 18));
+        img.drawString(text, Math.max(8, W/2 - tw / 2), H / 2 + 4);
     }
     
     public void drawBigOverlay(GreenfootImage img, String title, String sub, String hint, Color panelColor)
     {
+        img.setColor(new Color(0, 0, 0, 175));
+        img.fillRect(0, 0, W, H);
+
+        img.setColor(panelColor);
+        img.fillRect(W / 2 - 280, H / 2 - 115, 560, 230);
+        img.setColor(new Color(255, 255, 255, 150));
+        img.drawRect(W / 2 - 280, H / 2 - 115, 560, 230);
         
+        img.setColor(Color.WHITE);
+        img.setFont(new Font("Times New Roman", true, false, 42));
+        int tw = title.length() * 25;
+        img.drawString(title, W / 2 - tw / 2, H / 2 - 40);
+        
+        img.setFont(new Font("Times New Roman", true, false, 22));
+        int sw = sub.length() * 13;
+        img.drawString(sub, W / 2 - sw / 2, H / 2 + 15);
+        
+        img.setColor(new Color(255, 255, 100));
+        img.setFont(new Font("Times New Roman", false, false, 17));
+        int hw = hint.length() * 10;
+        img.drawString(hint, W / 2 - hw / 2, H / 2 + 68);        
     }
     
     public String heartsStr(int lives)
     {
+        if(lives >= 3)
+        {
+            return "♥♥♥";
+        }
         
+        if(lives == 2)
+        {
+            return "♥♥";
+        }
+        
+        if(lives == 1)
+        {
+            return "♥";
+        }
+        return "---";
     }
     
     
-    
-    
-    
-    
+
 }
