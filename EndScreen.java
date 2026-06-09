@@ -109,6 +109,22 @@ public class EndScreen extends Actor
             img.drawString(msg, W / 2 - msg.length() * 5, cardY + 130);
         }
         
-        
+        int btnPulse = (int)(Math.sin(tick * 0.09) * 8);
+        int btnW = 260 + btnPulse;
+        int btnH = 52;
+        int btnX = W / 2 - btnW / 2;
+        int btnY = cardY + cardH + 30;
+
+        img.setColor(new Color(30, 100, 30, 210));
+        img.fillRect(btnX, btnY, btnW, btnH);
+        img.setColor(new Color(100, 220, 100, 220));
+        img.drawRect(btnX, btnY, btnW, btnH);
+        img.drawRect(btnX + 2, btnY + 2, btnW - 4, btnH - 4);
+
+        img.setFont(new Font("Times New Roman", true, false, 22));
+        img.setColor(Color.WHITE);
+        img.drawString("Press  R  to  Restart", btnX + 22, btnY + 35);
+
+        setImage(img);
     }
 }

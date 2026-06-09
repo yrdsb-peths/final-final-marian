@@ -129,7 +129,7 @@ public class SniperWorld extends World {
             {
                 if (currentLevel >= MAX_LEVEL)
                 {
-                    gamePhase = "YOU WIN";
+                    showEndScreen("WIN");
                 }
                 else
                 {
@@ -143,12 +143,24 @@ public class SniperWorld extends World {
         {
             if (Greenfoot.isKeyDown("r"))
             {
+                if(endScreen != null)
+                {
+                    removeObject(endScreen);
+                    endScreen = null;
+                }
                 restartGame();
             }
         }
         hud.refresh();
     }
 
+    public boolean isLeftClick()
+    {
+        MouseInfo m = Greenfoot.getMouseInfo();
+        return m != null && m.getButton() == 1 && m.getClickCount() > 0;
+    }
+    
+    
     public void doPanning()
     {
         if(zoomed) return;
@@ -293,8 +305,7 @@ public class SniperWorld extends World {
             showBanner("MISSED ! Lives: " + heartsStr(lives), 90);
             if(lives <= 0)
             {
-                gamePhase = "GAME OVER";
-                showBanner("GAME OVER - Press R to Restart", 9999);
+                showEndScreen("GEMEOVER");
             }
         }
     }
@@ -305,6 +316,7 @@ public class SniperWorld extends World {
         aliensRemaining--;
         int pts = 100 + currentLevel * 20;
         score += pts;
+        soundManager.playKill();
         showBanner ("HIT! +" + pts + " pts - " + aliensRemaining + " left", 80);
         
         if (aliensRemaining <= 0)
@@ -312,12 +324,50 @@ public class SniperWorld extends World {
             int bonus = Math.max(0, 300 * lives);
             score += bonus;
             gamePhase = "LEVEL FINISHED";
+            soundManager.playLevelClear();
             showBanner("LEVEL " + currentLevel + " CLEAR! BONUS +" + bonus + " SPACE to continue", 9999);
             zoomed = false;
             scope.setActive(false);
             crosshair.setActive(false);
         }
     }
+    
+    public void showEndScreen(String type)
+    {
+        if (type.equals("GAMEOVER"))
+        {
+            gamePhase = "GAME OVER";
+            soundManager.playGameOver();
+        }
+        else
+        {
+            gamePhase = "YOU WIN";
+            soundManager.playGameOver();
+        }
+        zoomed = false;
+        scope.setActive(false);
+        crosshair.setActive(false);
+        if (endScreen != null)
+        {
+           removeObject(endScreen); 
+        }
+        endScreen = new EndScreen(type, score, currentLevel);
+        addObject(endScreen, SW / 2, SH / 2);
+        
+    }
+    
+    public void jumpToLevel(int level)
+    {
+        if (endScreen != null) 
+        { 
+            removeObject(endScreen); 
+            endScreen = null; 
+        }
+        currentLevel = level;
+        soundManager.resumeMusic();
+        startLevel(level);
+    }
+    
     
     public void doAlienTick()
     {
@@ -535,9 +585,10 @@ public class SniperWorld extends World {
     
     public void restartGame()
     {
-        currentLevel = 1;
+        
         score = 0;
-        startLevel(1);
+        soundManager.resumeMusic();
+        startLevel(currentLevel);
     }
     
     public void showBanner(String text, int ticks)
