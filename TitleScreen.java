@@ -8,10 +8,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class TitleScreen extends Actor
 {
-    /**
-     * Act - do whatever the TitleScreen wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    static final int W = SniperWorld.SW;
+    static final int H = SniperWorld.SH;
+    
+    public void TitleScreen()
+    {
+        GreenfootImage img = new GreenfootImage("title_page.png");
+        img.scale(W, H);
+        setImage(img);
+    }
+    
     public void act()
     {
         // Add your action code here.

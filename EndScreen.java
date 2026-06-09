@@ -1,0 +1,114 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+/**
+ * Write a description of class EndScreen here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class EndScreen extends Actor
+{
+    static final int W = SniperWorld.SW;
+    static final int H = SniperWorld.SH;
+    
+    
+    String type;
+    int score;
+    int level;
+    int animTick = 0;
+    
+    GreenfootImage bgImage;
+    
+    public EndScreen(String type, int score, int level)
+    {
+        this.type = type;
+        this.score = score;
+        this.level = level;
+        bgImage = new GreenfootImage("Ending_background.png");
+        bgImage.scale(W, H);
+        draw(0);
+    }
+    
+    
+    public void act()
+    {
+        animTick++;
+        if(animTick % 2 == 0)
+        {
+            draw(animTick);
+        }
+    }
+    
+    private void draw(int tick)
+    {
+        GreenfootImage img = new GreenfootImage(W, H);
+        
+        img.drawImage(bgImage, 0, 0);
+        img.setColor(new Color(0,0,0,100));
+        img.fillRect(0,0,W,H);
+        
+        boolean win = type.equals("WIN");
+        int pulse = (int)(Math.sin(tick * 0.08) * 6);
+        
+        img.setFont(new Font("Times New Roman", true, false, 100 + pulse));
+        img.setColor(new Color(0, 0, 0, 160));
+        img.drawString(win ? "YOU WIN!" : "GAME OVER", W / 2 - 290 + 4, H / 2 - 130 + 4);
+        
+        if (win)
+        {
+            img.setColor(new Color(255, 230, 60));
+        }
+        else
+        {
+            img.setColor(new Color(255, 60, 60));
+        }
+        img.drawString(win ? "YOU WIN!" : "GAME OVER", W / 2 - 290, H / 2 - 130);
+        
+        int cardW = 520;
+        int cardH = 160;
+        int cardX = W/2 - cardW/2;
+        int cardY = H/2 - 40;
+        
+        img.setColor(new Color(0, 0, 0, 170));
+        img.fillRect(cardX, cardY, cardW, cardH);
+        
+        if (win)
+        {
+            img.setColor(new Color(255, 220, 60, 180));
+        }
+        else
+        {
+            img.setColor(new Color(220, 60, 60, 180));
+        }
+        img.drawRect(cardX, cardY, cardW, cardH);
+        img.drawRect(cardX + 2, cardY + 2, cardW - 4, cardH - 4);
+        
+        img.setFont(new Font("Times New Roman", true, false, 28));
+        img.setColor(new Color(255, 240, 100));
+        String scoreStr = "Final Score:  " + score;
+        img.drawString(scoreStr, W / 2 - scoreStr.length() * 8, cardY + 50);
+        
+        
+        img.setFont(new Font("Times New Roman", false, true, 20));
+        img.setColor(new Color(220, 220, 220));
+        String levelStr = win ? "All 10 levels conquered!" : "Reached Level " + level;
+        img.drawString(levelStr, W / 2 - levelStr.length() * 6, cardY + 88);
+        
+        if (win)
+        {
+            img.setFont(new Font("Times New Roman", true, false, 24));
+            img.setColor(new Color(255, 220, 50));
+            String stars = "* * *  Congratulations!  * * *";
+            img.drawString(stars, W / 2 - stars.length() * 7, cardY + 130);
+        }
+        else
+        {
+            img.setFont(new Font("Times New Roman", false, true, 18));
+            img.setColor(new Color(200, 200, 200));
+            String msg = "Better luck next time!";
+            img.drawString(msg, W / 2 - msg.length() * 5, cardY + 130);
+        }
+        
+        
+    }
+}
