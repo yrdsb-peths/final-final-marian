@@ -47,14 +47,17 @@ public class SniperWorld extends World {
     zoomView scope;
     CrosshairActor crosshair;
 
-    boolean prevZ = false;
-    boolean prevSpace = false;
-    boolean prevLeftClick = false;
     
     TitleScreen titleScreen;
     EndScreen endScreen;
     LevelSelector levelSelector;
     SoundManager soundManager;
+    
+    boolean prevZ = false;
+    boolean prevSpace = false;
+    boolean prevLeftClick = false;
+    
+    
     
     GreenfootImage fullBgImage;
     public SniperWorld()

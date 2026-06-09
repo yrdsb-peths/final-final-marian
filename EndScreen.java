@@ -24,7 +24,7 @@ public class EndScreen extends Actor
         this.type = type;
         this.score = score;
         this.level = level;
-        bgImage = new GreenfootImage("Ending_background.png");
+        bgImage = new GreenfootImage("EndingBackground.png");
         bgImage.scale(W, H);
         draw(0);
     }

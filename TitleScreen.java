@@ -11,9 +11,9 @@ public class TitleScreen extends Actor
     static final int W = SniperWorld.SW;
     static final int H = SniperWorld.SH;
     
-    public void TitleScreen()
+    public TitleScreen()
     {
-        GreenfootImage img = new GreenfootImage("title_page.png");
+        GreenfootImage img = new GreenfootImage("titlePage.png");
         img.scale(W, H);
         setImage(img);
     }
