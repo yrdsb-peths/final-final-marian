@@ -35,7 +35,7 @@ public class SniperWorld extends World {
     int shotsFired = 0;
     int lives = 3;
     
-    String gamePhase = "PLAYING";
+    String gamePhase = "TITLE";
     
     String bannerText = "";
     int bannerTimer = 0;
@@ -51,6 +51,10 @@ public class SniperWorld extends World {
     boolean prevSpace = false;
     boolean prevLeftClick = false;
     
+    TitleScreen titleScreen;
+    EndScreen endScreen;
+    LevelSelector levelSelector;
+    SoundManager soundManager;
     
     GreenfootImage fullBgImage;
     public SniperWorld()
@@ -64,22 +68,39 @@ public class SniperWorld extends World {
     {
         fullBgImage = new GreenfootImage("background_final.png");
 
+        soundManager = new SoundManager();
+        
         hud = new displayColumn (this);
         scope = new zoomView(this);
         crosshair = new CrosshairActor();
+        levelSelector = new LevelSelector(this);
 
         addObject(hud, SW/2, SH/2);
         addObject(scope, SW/2, SH/2);
         addObject(crosshair, SW/2, SH/2);
+        addObject(levelSelector, SW/2, SH/2);
 
         scope.setActive(false);
         crosshair.setActive(false);
 
-        startLevel(1);
+        titleScreen = new TitleScreen();
+        addObject(titleScreen, SW / 2, SH / 2);
+        drawBackground();
     }
 
     public void act()
     {
+        if(gamePhase.equals("TITLE"))
+        {
+            if (Greenfoot.isKeyDown("space"))
+            {
+                removeObject(titleScreen);
+                titleScreen = null;
+                soundManager.startMusic();
+                startLevel(1);
+            }
+            return;
+        }
         if(gamePhase.equals("PLAYING"))
         {
             doPanning();
@@ -113,6 +134,7 @@ public class SniperWorld extends World {
                 else
                 {
                     currentLevel++;
+                    soundManager.resumeMusic();
                     startLevel(currentLevel);
                 }
             }
