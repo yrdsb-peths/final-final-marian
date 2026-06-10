@@ -44,8 +44,8 @@ public class SniperWorld extends World {
     
     List<Alien> aliens = new ArrayList<>();
 
-    displayColumn hud;
-    zoomView scope;
+    DisplayColumn hud;
+    ZoomView scope;
     CrosshairActor crosshair;
 
     
@@ -75,8 +75,8 @@ public class SniperWorld extends World {
 
         soundManager = new SoundManager();
         
-        hud = new displayColumn (this);
-        scope = new zoomView(this);
+        hud = new DisplayColumn (this);
+        scope = new ZoomView(this);
         crosshair = new CrosshairActor();
         levelSelector = new LevelSelector(this);
 
@@ -441,7 +441,7 @@ public class SniperWorld extends World {
     {
         int dx = sx - SW / 2;
         int dy = sy - SH / 2;
-        int r = zoomView.RADIUS;
+        int r = ZoomView.RADIUS;
         return dx * dx + dy * dy <= r * r;
     }
     

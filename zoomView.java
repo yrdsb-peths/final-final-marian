@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class zoomView extends Actor
+public class ZoomView extends Actor
 {
     
     static final int RADIUS = 200;
@@ -16,7 +16,7 @@ public class zoomView extends Actor
     boolean active = false;
     SniperWorld world;
     
-    public zoomView(SniperWorld w)
+    public ZoomView(SniperWorld w)
     {
         this.world = w;
         buildOff();

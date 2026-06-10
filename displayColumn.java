@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class displayColumn extends Actor
+public class DisplayColumn extends Actor
 {
     /**
      * Act - do whatever the displayColumn wants to do. This method is called whenever
@@ -17,7 +17,7 @@ public class displayColumn extends Actor
     static final int W = SniperWorld.SW;
     static final int H = SniperWorld.SH;
     
-    public displayColumn(SniperWorld w)
+    public DisplayColumn(SniperWorld w)
     {
         this.world = w;
         setImage(new GreenfootImage(W, H));
