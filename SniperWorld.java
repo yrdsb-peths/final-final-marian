@@ -27,6 +27,7 @@ public class SniperWorld extends World {
     int prevMouseY = SH/2;
     static final int ZOOM_PAN_SPEED = 4;
     
+    //Game state
     int currentLevel = 1;
     static final int MAX_LEVEL = 10;
     int aliensRemaining = 0;
@@ -58,7 +59,7 @@ public class SniperWorld extends World {
     boolean prevLeftClick = false;
     
     
-    
+    // The full background image
     GreenfootImage fullBgImage;
     public SniperWorld()
     {
@@ -66,7 +67,8 @@ public class SniperWorld extends World {
         Greenfoot.setSpeed(50);
         setup();
     }
-
+    
+    // Set up the background image
     public void setup()
     {
         fullBgImage = new GreenfootImage("background_final.png");
