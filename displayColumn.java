@@ -67,7 +67,7 @@ public class displayColumn extends Actor
         img.drawString("LV " + world.getLevel() + "/10", 12, H - 18);
 
         img.setColor(new Color(100, 220, 255));
-        img.drawString("SCORE: " + world.getScore(), 120, H - 18);
+        img.drawString("           SCORE: " + world.getScore(), 120, H - 18);
 
         img.setColor(new Color(255, 80, 80));
         img.drawString("LIVES: " + heartsStr(world.getLives()), 330, H - 18);
