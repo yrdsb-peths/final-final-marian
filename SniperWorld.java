@@ -159,13 +159,14 @@ public class SniperWorld extends World {
         hud.refresh();
     }
 
+    //Return true if the player performed a left mouse click
     public boolean isLeftClick()
     {
         MouseInfo m = Greenfoot.getMouseInfo();
         return m != null && m.getButton() == 1 && m.getClickCount() > 0;
     }
     
-    
+    //Set up keyboard panning of the map when not zoomed
     public void doPanning()
     {
         if(zoomed) return;
@@ -192,7 +193,8 @@ public class SniperWorld extends World {
             a.setLocation(a.mapX - panX, a.mapY - panY);
         }
     }
-
+    
+    //Set up panning of the sniper scope, when zooming
     public void doZoom()
     {
         boolean zNow = Greenfoot.isKeyDown("z");
@@ -201,13 +203,15 @@ public class SniperWorld extends World {
             toggleZoom();
         }
         prevZ = zNow;
-
+        
+        //Right click
         MouseInfo m = Greenfoot.getMouseInfo();
         if (m != null && m.getButton() == 3 && m.getClickCount() > 0)
         {
             toggleZoom();
         }
-
+        
+        //WASD/arrow pan the zoomed view
         if (zoomed)
         {
             if (Greenfoot.isKeyDown("left")  || Greenfoot.isKeyDown("a"))  zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
