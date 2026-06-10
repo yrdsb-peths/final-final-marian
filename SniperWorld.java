@@ -224,18 +224,15 @@ public class SniperWorld extends World {
 
             drawBackground();
         }
-    }/**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
+    }
+    
     public int sampleMethod(int y)
     {
         // put your code here
         return y;
     }
 
+    //Toggles the sniper scope between zoomed-in and normal view
     public void toggleZoom()
     {
         zoomed = !zoomed;
@@ -243,6 +240,7 @@ public class SniperWorld extends World {
         crosshair.setActive(zoomed);
         if(zoomed)
         {
+            //Center the zoom viewport on the current screen centre
             zoomPanX = clamp(panX + SW/2 - zoomViewW/2, 0, MAP_W - zoomViewW);
             zoomPanY = clamp(panY + SH/2 - zoomViewH/2, 0, MAP_H - zoomViewH);
             MouseInfo m = Greenfoot.getMouseInfo();
@@ -255,7 +253,8 @@ public class SniperWorld extends World {
         }
         drawBackground();
     }
-
+    
+    //Read player input and fires a shot when appropriate
     public void doShooting()
     {
         if (shootCooldown > 0)
@@ -277,12 +276,14 @@ public class SniperWorld extends World {
             return;
         }
         
+        //Fire when zoomed and fire input is detected.
         if (firePressed && zoomed)
         {
             fireShot();
         }
     }
-
+    
+    // Fires one shot at the center of the current zoomed viewport
     public void fireShot()
     {
         shootCooldown = 15;
@@ -318,7 +319,10 @@ public class SniperWorld extends World {
             }
         }
     }
-
+    
+    // Marks an alien as dead
+    // Avards points
+    // Check for level completion
     public void killAllien(Alien a)
     {
         a.alive = false;
@@ -341,6 +345,7 @@ public class SniperWorld extends World {
         }
     }
     
+    // Display the end screen overlay for wither a win or game-over result
     public void showEndScreen(String type)
     {
         if (type.equals("GAMEOVER"))
@@ -365,6 +370,8 @@ public class SniperWorld extends World {
         
     }
     
+    //Jump directly to the specified level
+    //Clear any end screen and restarts from the chosen level
     public void jumpToLevel(int level)
     {
         if (endScreen != null) 
@@ -377,7 +384,7 @@ public class SniperWorld extends World {
         startLevel(level);
     }
     
-    
+    //Increases each alive alien by one tick and removes any aliens
     public void doAlienTick()
     {
         List<Alien> toRemove = new ArrayList<>();
@@ -396,6 +403,7 @@ public class SniperWorld extends World {
         }
     }
     
+    //Redraws the background images(in normal mood/in zoom mode)
     public void drawBackground()
     {
         if (fullBgImage == null)
@@ -428,6 +436,7 @@ public class SniperWorld extends World {
             }
         } else
             {
+                // Normal view, pan the full-size background
                GreenfootImage view = new GreenfootImage(SW, SH);
                view.drawImage(fullBgImage, -panX, -panY);
                setBackground(view);
@@ -441,6 +450,7 @@ public class SniperWorld extends World {
         
     }
     
+    // Return true if the given screen coordinates falls inside the circular scope window
     public boolean isInScopeCircle(int sx, int sy)
     {
         int dx = sx - SW / 2;
@@ -449,6 +459,7 @@ public class SniperWorld extends World {
         return dx * dx + dy * dy <= r * r;
     }
     
+    //Starts the specified level
     public void startLevel(int level)
     {
         for (Alien a : aliens)
@@ -484,6 +495,7 @@ public class SniperWorld extends World {
             noCamoB = Greenfoot.getRandomNumber(count);
         }
         
+        //Spawn each alien, ensuring minimum spacing between them
         for (int i = 0; i < count; i++)
         {
             int mx = 0;
@@ -521,12 +533,14 @@ public class SniperWorld extends World {
     }
     
     
-    
+    //Return the number of aliens to spawn for the given level
+    //Each level adds one extra alien
     public int getStartAlienCount(int level)
     {
         return 5 + level;
     }
     
+    //Set the background image colour at the specified map coordinate
     public Color sampleBgColor(int mx, int my)
     {
         if (fullBgImage == null)
@@ -540,7 +554,9 @@ public class SniperWorld extends World {
     }
     
     
-    
+    // Selects an alien type for the given level and spawn index
+    // Previous Levels only spawn type 0
+    // Later levels make smaller, more transparent alien types
     public int chooseAlienType(int level, int index)
     {
         if (level <= 2)
@@ -576,6 +592,7 @@ public class SniperWorld extends World {
         return 3;
     }
     
+    //Return true if the given map position is within m of any already placed alien
     public boolean tooClose(int mx, int my, int m)
     {
         for (Alien a : aliens)
@@ -592,6 +609,9 @@ public class SniperWorld extends World {
         return false;
     }
     
+    //Setup the restart of the game
+    //Resets the score to zero
+    //Restart the current level
     public void restartGame()
     {
         
@@ -600,67 +620,80 @@ public class SniperWorld extends World {
         startLevel(currentLevel);
     }
     
+    //Sets the center-screen banner message for a given number of ticks
     public void showBanner(String text, int ticks)
     {
         bannerText = text;
         bannerTimer = ticks;
     }
     
+    //Clamp value a to the range b,c
     public static int clamp(int a, int b, int c)
     {
         return Math.max(b, Math.min(c, a));
     }
     
+    //Return a hearts string (the numbers of lives)
     public String heartsStr(int lives)
     {
         return (lives >= 3 ? "♥♥♥" : lives == 2 ? "♥♥" : lives == 1 ? "♥" : "");
     }
     
+    //Return the current level number
     public int getLevel()
     {
         return currentLevel;
     }
     
+    //Return the number of aliens still alive in this level
     public int getAliensLeft()
     {
         return aliensRemaining;
     }
     
+    //Return the total aliens
     public int getTotalAliens()
     {
         return totalAliensThisLevel;
     }
     
+    //Return the player's total score
     public int getScore()
     {
         return score;
     }
     
+    //Return the number of shots fired this level
     public int getShots()
     {
         return shotsFired;
     }
     
+    //Return the number of remaining lives
     public int getLives()
     {
         return lives;
     }
     
+    //Return the current banner text
     public String getBanner()
     {
         return bannerText;
     }
-    
+
+    //Return true if the banner is currently visible
     public boolean bannerVisible()
     {
         return bannerTimer > 0;
     }
     
+    //Return the current game phase
     public String getPhase()
     {
         return gamePhase;
     }
     
+    //Return true if the sniper scope is active
     public boolean isZoomed()
     {
         return zoomed;
