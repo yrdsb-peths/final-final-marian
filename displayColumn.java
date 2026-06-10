@@ -1,32 +1,39 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
- * Write a description of class displayColumn here.
+ * DisplayColumn is the heads up display overlay for the Alien Lurk game
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li
+ * @version Jun 7 2026
  */
 public class DisplayColumn extends Actor
 {
-    /**
-     * Act - do whatever the displayColumn wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     SniperWorld world;
     
     static final int W = SniperWorld.SW;
     static final int H = SniperWorld.SH;
     
+    /**
+     * Contructs a DisplayColumn linked to the given world.
+     * Creats an initial blank transparent image of full screen size
+     */
     public DisplayColumn(SniperWorld w)
     {
         this.world = w;
         setImage(new GreenfootImage(W, H));
     }
+    
+    /**
+     * Called every frame
+     */
     public void act()
     {
         
     }
     
+    /**
+     * Redraws the entire HUD image for the current frame
+     */
     public void refresh()
     {
         GreenfootImage img = new GreenfootImage(W,H);
@@ -35,6 +42,9 @@ public class DisplayColumn extends Actor
         
         String phase = world.getPhase();
         
+        /**
+         * Control hint text
+         */
         if (phase.equals("PLAYING")) {
             img.setColor(new Color(255, 255, 255, 160));
             img.setFont(new Font("Times New Roman", false, false, 13));
@@ -56,6 +66,9 @@ public class DisplayColumn extends Actor
             drawAlienCounter(img, total, left, found);
         }
         
+        /**
+         * Bottom status bar
+         */
         img.setColor(new Color(0, 0, 0, 190));
         img.fillRect(0, H - 48, W, 48);
         img.setColor(new Color(60, 200, 60, 200));
@@ -78,6 +91,9 @@ public class DisplayColumn extends Actor
         img.setColor(new Color(255, 220, 80));
         img.drawString("ALIENS: " + left + "/" + total, 700, H - 18);
         
+        /**
+         * Center banner
+         */
         if(world.bannerVisible())
         {
             drawBanner(img, world.getBanner());
@@ -109,6 +125,9 @@ public class DisplayColumn extends Actor
         setImage(img);
     }
     
+    /**
+     * Draw a row of mini alien icons representing how many aliens remain
+     */
     public void drawAlienCounter(GreenfootImage img, int total, int left, int found)
     {
         int iconSize = 24;
@@ -134,6 +153,9 @@ public class DisplayColumn extends Actor
         }
     }
     
+    /**
+     * Draw a single mini alien at the specified position
+     */
     public void drawMiniAlien(GreenfootImage img, int cx, int cy, int size, boolean killed)
     {
         int s = size;
@@ -160,6 +182,9 @@ public class DisplayColumn extends Actor
         }
     }
     
+    /**
+     * Draw the center screen notification banner with a dark background
+     */
     public void drawBanner(GreenfootImage img, String text)
     {
         int tw = text.length() * 11;
@@ -177,6 +202,9 @@ public class DisplayColumn extends Actor
         img.drawString(text, Math.max(8, W/2 - tw / 2), H / 2 + 4);
     }
     
+    /**
+     * Draw a full screen overlay panel used for game-over and win states
+     */
     public void drawBigOverlay(GreenfootImage img, String title, String sub, String hint, Color panelColor)
     {
         img.setColor(new Color(0, 0, 0, 175));
@@ -202,6 +230,9 @@ public class DisplayColumn extends Actor
         img.drawString(hint, W / 2 - hw / 2, H / 2 + 68);        
     }
     
+    /**
+     * Return a heart symbol representing the number of lines
+     */
     public String heartsStr(int lives)
     {
         if(lives >= 3)
@@ -220,7 +251,5 @@ public class DisplayColumn extends Actor
         }
         return "---";
     }
-    
-    
 
 }

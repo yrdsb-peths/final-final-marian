@@ -1,22 +1,27 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
- * Write a description of class CrosshairActor here.
+ * CrosshairActor is an animated sniper crosshair at the center of the scope
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li 
+ * @version Jun 7 2026
  */
 public class CrosshairActor extends Actor
 {
     boolean active = false;
     int pulse = 0;
     
+    /**
+     * Constructs a CrosshairActor in its invisible state
+     */
     public CrosshairActor()
     {
         buildOff();
     }
 
-    
+    /**
+     * Called every frame
+     */
     public void act()
     {
         if (!active)
@@ -28,6 +33,9 @@ public class CrosshairActor extends Actor
         buildOn(alpha);
     }
     
+    /**
+     * Enables or disables the crosshair
+     */
     public void setActive(boolean on)
     {
         active = on;
@@ -41,6 +49,9 @@ public class CrosshairActor extends Actor
         
     }
     
+    /**
+     * Draws and sets the crosshair image at the given transparency level
+     */
     public void buildOn(int alpha)
     {
         int S = 28;
@@ -53,29 +64,44 @@ public class CrosshairActor extends Actor
         int len = 16;
         int gap = 6;
         
+        /**
+         * Draw shadow
+         */
         img.setColor(new Color(0, 0, 0, alpha / 3));
         img.drawLine(cx - len, cy + 1, cx - gap, cy + 1);
         img.drawLine(cx + gap, cy + 1, cx + len, cy + 1);
         img.drawLine(cx + 1, cy - len, cx + 1, cy - gap);
         img.drawLine(cx + 1, cy + gap, cx + 1, cy + len);
         
+        /**
+         * Draw green glow layer
+         */
         img.setColor(new Color(40, 220, 40, alpha / 2));
         img.drawLine(cx - len - 2, cy, cx - gap + 2, cy);
         img.drawLine(cx + gap - 2, cy, cx + len + 2, cy);
         img.drawLine(cx, cy - len - 2, cx, cy - gap + 2);
         img.drawLine(cx, cy + gap - 2, cx, cy + len + 2);
         
+        /**
+         * Red crosshair lines
+         */
         img.setColor(new Color(255, 55, 55, alpha));
         img.drawLine(cx - len, cy, cx - gap, cy);
         img.drawLine(cx + gap, cy, cx + len, cy);
         img.drawLine(cx, cy - len, cx, cy - gap);
         img.drawLine(cx, cy + gap, cx, cy + len);
         
+        /**
+         * Central dot
+         */
         img.setColor(new Color(255, 80, 80, alpha));
         img.fillOval(cx - 3, cy - 3, 6, 6);
         img.setColor(new Color(255, 220, 220, alpha));
         img.fillOval(cx - 1, cy - 1, 2, 2);
         
+        /**
+         * Corner bracket
+         */
         int blen = 9;
         int boff = 18;
         img.setColor(new Color(255, 100, 50, Math.max(0, alpha - 30)));
@@ -95,6 +121,10 @@ public class CrosshairActor extends Actor
         setImage(img);
     }
     
+    /**
+     * Sets the image to a 1x1 transparent pixel so the actor is invisible
+     * Called when the scope is deactivated.
+     */
     public void buildOff()
     {
         GreenfootImage img = new GreenfootImage(1,1);
@@ -102,10 +132,5 @@ public class CrosshairActor extends Actor
         img.fill();
         setImage(img);
     }
-    
-    
-    
-    
-    
     
 }

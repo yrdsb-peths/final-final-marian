@@ -1,10 +1,10 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
  * Alien is an actor that represents a single enemy in the Alien Lurk 
  * 
- * Marian Li
- * Jun7 2026
+ * @author Marian Li
+ * @version Jun 7 2026
  */
 public class Alien extends Actor
 {
@@ -35,7 +35,9 @@ public class Alien extends Actor
     GreenfootImage imgPeek;
     GreenfootImage imgDead;
     
-    // Build an Alien at the specified map coordinates
+    /**
+     * Build an Alien at the specified map coordinates
+     */ 
     public Alien (int mapX, int mapY, int type, int level, Color bgColor)
     {
         this.mapX = mapX;
@@ -59,7 +61,9 @@ public class Alien extends Actor
         }
         
         swayPhase = Greenfoot.getRandomNumber(300);
-        //Higher levels peek more frequently
+        /**
+         * Higher levels peek more frequently
+         */
         peekCooldown = 100 + Greenfoot.getRandomNumber(160) + level * 20;
         
         buildImages();
@@ -67,7 +71,9 @@ public class Alien extends Actor
         
     }
     
-    //Build the three images used for normal, peek, and dead
+    /**
+     * Build the three images used for normal, peek, and dead
+     */
     public void buildImages()
     {
         imgNormal = makeImage(false, false);
@@ -75,7 +81,9 @@ public class Alien extends Actor
         imgDead = makeImage(false, true);
     }
     
-    //Return the base body size for alien's type
+    /**
+     * Return the base body size for alien's type
+     */
     public int baseSize()
     {
         if (type == 0)
@@ -97,7 +105,9 @@ public class Alien extends Actor
         return 30;
     }
     
-    //Draw and returns an alien image
+    /**
+     * Draw and returns an alien image
+     */
     public GreenfootImage makeImage(boolean peek, boolean dead)
     {
         int s = baseSize();
@@ -141,7 +151,9 @@ public class Alien extends Actor
             alpha = 230;
         }
         
-        //Calculate body colour
+        /**
+         * Calculate body colour
+         */
         int br;
         int bg;
         int bb;
@@ -154,7 +166,9 @@ public class Alien extends Actor
         }
         else
         {
-            //Adjust colour relative to background brightness
+            /**
+             * Adjust colour relative to background brightness
+             */
             int brightness = (bgR + bgG + bgB) / 3;
             if (brightness > 128) {
                 br = clamp(bgR - shift, 0, 255);
@@ -168,7 +182,9 @@ public class Alien extends Actor
             }
         }
         
-        //Eye colour
+        /**
+         * Eye colour
+         */
         int er = clamp(255 - br + 80, 0, 255);
         int eg = clamp(60, 0, 255);
         int eb = clamp(255 - bb, 0, 255);
@@ -203,7 +219,9 @@ public class Alien extends Actor
             img.fillOval(cx - s/2 - 4, h/3 - 4, s + 8, h * 2/3 + 8);
         }
         
-        //Body and head ovals
+        /**
+         * Body and head ovals
+         */
         img.setColor(bodyColor);
         img.fillOval(cx - s/2, h/3, s, h*2/3);
         img.fillOval(cx - s*2/5, 6, s*4/5, s*4/5);
@@ -212,7 +230,9 @@ public class Alien extends Actor
         img.drawOval(cx - s/2, h/3, s, h*2/3);
         img.drawOval(cx - s*2/5, 6, s*4/5, s*4/5);
         
-        //Stripe highlighgt
+        /**
+         * Stripe highlighgt
+         */
         if (!dead) {
             Color stripeColor = new Color(clamp(br+15,0,255), clamp(bg+15,0,255), clamp(bb+15,0,255), alpha/2);
             img.setColor(stripeColor);
@@ -221,12 +241,16 @@ public class Alien extends Actor
             img.fillOval(bx, by, s*2/3, s/3);
         }
         
-        //Antennae
+        /**
+         * Antennae
+         */
         img.setColor(antColor);
         img.drawLine(cx - 6, 10, cx - 13, 1);
         img.drawLine(cx + 6, 10, cx + 13, 1);
         
-        //Antenna orbs
+        /**
+         * Antenna orbs
+         */
         Color orbColor;
         if(peek)
         {
@@ -244,7 +268,9 @@ public class Alien extends Actor
         img.fillOval(cx - 16, -2, 3, 3);
         img.fillOval(cx + 10, -2, 3, 3);
         
-        //Eyes
+        /**
+         * Eyes
+         */
         img.setColor(new Color(15, 15, 15, alpha));  
         img.fillOval(cx - 11, s/3 - 1, 10, 10);
         img.fillOval(cx + 1,  s/3 - 1, 10, 10);
@@ -266,17 +292,23 @@ public class Alien extends Actor
             img.drawLine(cx+1, s/3+9, cx+11, s/3-1);
         }
         
-        //Arms
+        /**
+         * Arms
+         */
         img.setColor(outlineColor);
         img.drawLine(cx - s/2, h/2 + 4, cx - s/2 - 8, h/2 + 14);
         img.drawLine(cx + s/2 - 1, h/2 + 4, cx + s/2 + 7, h/2 + 14);
         
-        //Hands
+        /**
+         * Hands
+         */
         img.setColor(bodyColor);
         img.fillOval(cx - s/2 - 10, h/2 + 12, 6, 6);
         img.fillOval(cx + s/2 + 5,  h/2 + 12, 6, 6);
         
-        //Feet
+        /**
+         * Feet
+         */
         img.setColor(bodyColor);
         img.fillOval(cx - s/3 - 2, h - 4, s/3, 8);
         img.fillOval(cx + 2, h - 4, s/3, 8);
@@ -287,7 +319,9 @@ public class Alien extends Actor
         return img;
     }
     
-    //Update the alien's animation for one game tick
+    /**
+     * Update the alien's animation for one game tick
+     */
     public void tick(int level)
     {
         tickCount++;
@@ -373,20 +407,27 @@ public class Alien extends Actor
         }
     }
     
-    // Return true when the death animation is fully complete and alien can be safely removed from the world
+    /**
+     * Return true when the death animation is fully
+     * complete and alien can be safely removed from the world
+     */  
     public boolean readyToRemove()
     {
         return !alive && deathTick > DEATH_DUR + 5;
     }
     
-    //Clamp value a to the range b,c
+    /**
+     * Clamp value a to the range b,c
+     */
     public int clamp(int a, int b, int c)
     {
         return Math.max(b, Math.min(c,a));
     }
     
-    //Set hidden
-    //Hides this alien by swapping its image
+    /**
+     * Set hidden
+     * Hides this alien by swapping its image
+     */
     public void setHidden(boolean hide)
     {
         hidden = hide;

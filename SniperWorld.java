@@ -2,20 +2,33 @@ import greenfoot.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SniperWorld is the main game world for "Alien Lurk"
+ * It manages all game phases, controls the entire game
+ * 
+ * @author Marian Li
+ * @version Jun 7 2026
+ */
 public class SniperWorld extends World {
-    //background image size
+    /**
+     * background image size
+     */
     static final int SW = 1370;
     static final int SH = 770;
 
     static final int MAP_W = 1672;
     static final int MAP_H = 941;
 
-    //pan
+    /**
+     * pan
+     */
     int panX = 0;
     int panY = 0;
     static final int PAN_SPEED = 6;
 
-    //zoom
+    /**
+     * zoom
+     */
     boolean zoomed = false;
     static final double ZOOM_SCALE = 2.5;
     int zoomViewW = (int)(SW/ZOOM_SCALE);
@@ -27,7 +40,9 @@ public class SniperWorld extends World {
     int prevMouseY = SH/2;
     static final int ZOOM_PAN_SPEED = 4;
     
-    //Game state
+    /**
+     * Game state
+     */
     int currentLevel = 1;
     static final int MAX_LEVEL = 10;
     int aliensRemaining = 0;
@@ -59,7 +74,9 @@ public class SniperWorld extends World {
     boolean prevLeftClick = false;
     
     
-    // The full background image
+    /**
+     * The full background image
+     */ 
     GreenfootImage fullBgImage;
     public SniperWorld()
     {
@@ -68,7 +85,9 @@ public class SniperWorld extends World {
         setup();
     }
     
-    // Set up the background image
+    /**
+     * Set up the background image
+     */ 
     public void setup()
     {
         fullBgImage = new GreenfootImage("background_final.png");
@@ -92,7 +111,10 @@ public class SniperWorld extends World {
         addObject(titleScreen, SW / 2, SH / 2);
         drawBackground();
     }
-
+    
+    /**
+     * Called by Greenfoot
+     */
     public void act()
     {
         if(gamePhase.equals("TITLE"))
@@ -159,14 +181,18 @@ public class SniperWorld extends World {
         hud.refresh();
     }
 
-    //Return true if the player performed a left mouse click
+    /**
+     * Return true if the player performed a left mouse click
+     */
     public boolean isLeftClick()
     {
         MouseInfo m = Greenfoot.getMouseInfo();
         return m != null && m.getButton() == 1 && m.getClickCount() > 0;
     }
     
-    //Set up keyboard panning of the map when not zoomed
+    /**
+     * Set up keyboard panning of the map when not zoomed
+     */
     public void doPanning()
     {
         if(zoomed) return;
@@ -194,7 +220,9 @@ public class SniperWorld extends World {
         }
     }
     
-    //Set up panning of the sniper scope, when zooming
+    /**
+     * Set up panning of the sniper scope, when zooming
+     */
     public void doZoom()
     {
         boolean zNow = Greenfoot.isKeyDown("z");
@@ -204,14 +232,18 @@ public class SniperWorld extends World {
         }
         prevZ = zNow;
         
-        //Right click
+        /**
+         * Right click
+         */
         MouseInfo m = Greenfoot.getMouseInfo();
         if (m != null && m.getButton() == 3 && m.getClickCount() > 0)
         {
             toggleZoom();
         }
         
-        //WASD/arrow pan the zoomed view
+        /**
+         * WASD/arrow pan the zoomed view
+         */
         if (zoomed)
         {
             if (Greenfoot.isKeyDown("left")  || Greenfoot.isKeyDown("a"))  zoomPanX = clamp(zoomPanX - ZOOM_PAN_SPEED, 0, MAP_W - zoomViewW);
@@ -228,11 +260,15 @@ public class SniperWorld extends World {
     
     public int sampleMethod(int y)
     {
-        // put your code here
+        /**
+         * put your code here
+         */ 
         return y;
     }
 
-    //Toggles the sniper scope between zoomed-in and normal view
+    /**
+     * Toggles the sniper scope between zoomed-in and normal view
+     */
     public void toggleZoom()
     {
         zoomed = !zoomed;
@@ -240,7 +276,9 @@ public class SniperWorld extends World {
         crosshair.setActive(zoomed);
         if(zoomed)
         {
-            //Center the zoom viewport on the current screen centre
+            /**
+             * Center the zoom viewport on the current screen centre
+             */
             zoomPanX = clamp(panX + SW/2 - zoomViewW/2, 0, MAP_W - zoomViewW);
             zoomPanY = clamp(panY + SH/2 - zoomViewH/2, 0, MAP_H - zoomViewH);
             MouseInfo m = Greenfoot.getMouseInfo();
@@ -254,7 +292,9 @@ public class SniperWorld extends World {
         drawBackground();
     }
     
-    //Read player input and fires a shot when appropriate
+    /**
+     * Read player input and fires a shot when appropriate
+     */
     public void doShooting()
     {
         if (shootCooldown > 0)
@@ -276,14 +316,18 @@ public class SniperWorld extends World {
             return;
         }
         
-        //Fire when zoomed and fire input is detected.
+        /**
+         * Fire when zoomed and fire input is detected.
+         */
         if (firePressed && zoomed)
         {
             fireShot();
         }
     }
     
-    // Fires one shot at the center of the current zoomed viewport
+    /**
+     * Fires one shot at the center of the current zoomed viewport
+     */ 
     public void fireShot()
     {
         shootCooldown = 15;
@@ -320,9 +364,11 @@ public class SniperWorld extends World {
         }
     }
     
-    // Marks an alien as dead
-    // Avards points
-    // Check for level completion
+    /**
+     * Marks an alien as dead
+     * Avards points
+     * Check for level completion
+     */ 
     public void killAllien(Alien a)
     {
         a.alive = false;
@@ -345,7 +391,9 @@ public class SniperWorld extends World {
         }
     }
     
-    // Display the end screen overlay for wither a win or game-over result
+    /**
+     * Display the end screen overlay for wither a win or game-over result
+     */ 
     public void showEndScreen(String type)
     {
         if (type.equals("GAMEOVER"))
@@ -370,8 +418,10 @@ public class SniperWorld extends World {
         
     }
     
-    //Jump directly to the specified level
-    //Clear any end screen and restarts from the chosen level
+    /**
+     * Jump directly to the specified level
+     * Clear any end screen and restarts from the chosen level
+     */
     public void jumpToLevel(int level)
     {
         if (endScreen != null) 
@@ -384,7 +434,9 @@ public class SniperWorld extends World {
         startLevel(level);
     }
     
-    //Increases each alive alien by one tick and removes any aliens
+    /**
+     * Increases each alive alien by one tick and removes any aliens
+     */
     public void doAlienTick()
     {
         List<Alien> toRemove = new ArrayList<>();
@@ -403,7 +455,9 @@ public class SniperWorld extends World {
         }
     }
     
-    //Redraws the background images(in normal mood/in zoom mode)
+    /**
+     * Redraws the background images(in normal mood/in zoom mode)
+     */
     public void drawBackground()
     {
         if (fullBgImage == null)
@@ -436,7 +490,9 @@ public class SniperWorld extends World {
             }
         } else
             {
-                // Normal view, pan the full-size background
+                /**
+                 * Normal view, pan the full-size background
+                 */ 
                GreenfootImage view = new GreenfootImage(SW, SH);
                view.drawImage(fullBgImage, -panX, -panY);
                setBackground(view);
@@ -450,7 +506,10 @@ public class SniperWorld extends World {
         
     }
     
-    // Return true if the given screen coordinates falls inside the circular scope window
+    /**
+     * Return true if the given screen coordinates falls 
+     * inside the circular scope window
+     */ 
     public boolean isInScopeCircle(int sx, int sy)
     {
         int dx = sx - SW / 2;
@@ -459,7 +518,9 @@ public class SniperWorld extends World {
         return dx * dx + dy * dy <= r * r;
     }
     
-    //Starts the specified level
+    /**
+     * Starts the specified level
+     */
     public void startLevel(int level)
     {
         for (Alien a : aliens)
@@ -495,7 +556,9 @@ public class SniperWorld extends World {
             noCamoB = Greenfoot.getRandomNumber(count);
         }
         
-        //Spawn each alien, ensuring minimum spacing between them
+        /**
+         * Spawn each alien, ensuring minimum spacing between them
+         */
         for (int i = 0; i < count; i++)
         {
             int mx = 0;
@@ -533,14 +596,18 @@ public class SniperWorld extends World {
     }
     
     
-    //Return the number of aliens to spawn for the given level
-    //Each level adds one extra alien
+    /**
+     * Return the number of aliens to spawn for the given level
+     * Each level adds one extra alien
+     */
     public int getStartAlienCount(int level)
     {
         return 5 + level;
     }
     
-    //Set the background image colour at the specified map coordinate
+    /**
+     * Set the background image colour at the specified map coordinate
+     */
     public Color sampleBgColor(int mx, int my)
     {
         if (fullBgImage == null)
@@ -554,9 +621,11 @@ public class SniperWorld extends World {
     }
     
     
-    // Selects an alien type for the given level and spawn index
-    // Previous Levels only spawn type 0
-    // Later levels make smaller, more transparent alien types
+    /**
+     * Selects an alien type for the given level and spawn index
+     * Previous Levels only spawn type 0
+     * Later levels make smaller, more transparent alien types
+     */ 
     public int chooseAlienType(int level, int index)
     {
         if (level <= 2)
@@ -592,7 +661,10 @@ public class SniperWorld extends World {
         return 3;
     }
     
-    //Return true if the given map position is within m of any already placed alien
+    /**
+     * Return true if the given map position is
+     * within m of any already placed alien
+     */ 
     public boolean tooClose(int mx, int my, int m)
     {
         for (Alien a : aliens)
@@ -609,9 +681,11 @@ public class SniperWorld extends World {
         return false;
     }
     
-    //Setup the restart of the game
-    //Resets the score to zero
-    //Restart the current level
+    /**
+     * Setup the restart of the game
+     * Resets the score to zero
+     * Restart the current level
+     */
     public void restartGame()
     {
         
@@ -620,80 +694,107 @@ public class SniperWorld extends World {
         startLevel(currentLevel);
     }
     
-    //Sets the center-screen banner message for a given number of ticks
+    /**
+     * Sets the center-screen banner message for a given number of ticks
+     */
     public void showBanner(String text, int ticks)
     {
         bannerText = text;
         bannerTimer = ticks;
     }
     
-    //Clamp value a to the range b,c
+    /**
+     * Clamp value a to the range b,c
+     */
     public static int clamp(int a, int b, int c)
     {
         return Math.max(b, Math.min(c, a));
     }
     
-    //Return a hearts string (the numbers of lives)
+    /**
+     * Return a hearts string 
+     * (the numbers of lives)
+     */
     public String heartsStr(int lives)
     {
         return (lives >= 3 ? "♥♥♥" : lives == 2 ? "♥♥" : lives == 1 ? "♥" : "");
     }
     
-    //Return the current level number
+    /**
+     * Return the current level number
+     */
     public int getLevel()
     {
         return currentLevel;
     }
     
-    //Return the number of aliens still alive in this level
+    /**
+     * Return the number of aliens still alive in this level
+     */
     public int getAliensLeft()
     {
         return aliensRemaining;
     }
     
-    //Return the total aliens
+    /**
+     * Return the total aliens
+     */
     public int getTotalAliens()
     {
         return totalAliensThisLevel;
     }
     
-    //Return the player's total score
+    /**
+     * Return the player's total score
+     */
     public int getScore()
     {
         return score;
     }
     
-    //Return the number of shots fired this level
+    /**
+     * Return the number of shots fired this level
+     */
     public int getShots()
     {
         return shotsFired;
     }
     
-    //Return the number of remaining lives
+    /**
+     * Return the number of remaining lives
+     */
     public int getLives()
     {
         return lives;
     }
     
-    //Return the current banner text
+    /**
+     * Return the current banner text
+     */
     public String getBanner()
     {
         return bannerText;
     }
 
-    //Return true if the banner is currently visible
+    /**
+     * Return true if the banner is currently visible
+     */
     public boolean bannerVisible()
     {
         return bannerTimer > 0;
     }
     
-    //Return the current game phase
+    /**
+     * Return the current game phase
+     */
     public String getPhase()
     {
         return gamePhase;
     }
     
-    //Return true if the sniper scope is active
+    /**
+     * Return true if the sniper scope is active
+     */
     public boolean isZoomed()
     {
         return zoomed;

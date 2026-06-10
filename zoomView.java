@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class zoomView here.
+ * ZoomView renders the sniper scope overlay when the player zooms in
  * 
  * @author (your name) 
  * @version (a version number or a date)

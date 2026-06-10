@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Levelselector here.
+ * LevelSelector provides a clickable panel that lets the player jump to any level
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li
+ * @version Jun 7 2026
  */
 public class LevelSelector extends Actor
 {
@@ -21,13 +21,18 @@ public class LevelSelector extends Actor
     static final int BTN_X = 88;
     static final int BTN_Y_FROM_BOTTOM = 42;
     
+    /**
+     * Build a LevelSelector linked to the given world
+     */
     public LevelSelector(SniperWorld w)
     {
         this.world = w;
         buildButton(false);
     }
     
-    
+    /**
+     * Called every frame
+     */
     public void act()
     {
         animTick++;
@@ -71,7 +76,11 @@ public class LevelSelector extends Actor
         {
             buildButton(isHovered());
         }
-    }   
+    }  
+    
+    /**
+     * Return true if the mouse cursor is currently hovering over the toggle button
+     */
     public boolean isHovered()
     {
         MouseInfo m = Greenfoot.getMouseInfo();
@@ -84,7 +93,10 @@ public class LevelSelector extends Actor
         int btnScreenY = H - BTN_Y_FROM_BOTTOM;
         return mx >= BTN_X && mx <= BTN_X + BTN_W && my >= btnScreenY && my <= btnScreenY + BTN_H;
     }
-        
+    
+    /**
+     * Determine which level button was clicked
+     */
     public int getLevelClicked(int mx, int my)
     {
         int panW = 340;
@@ -115,7 +127,10 @@ public class LevelSelector extends Actor
         }
         return 0;
     }
-        
+    
+    /**
+     * Draw small toggle button in the bottom-left area
+     */
     public void buildButton(boolean hovered)
     {
         GreenfootImage img = new GreenfootImage(W, H);
@@ -145,6 +160,10 @@ public class LevelSelector extends Actor
         setImage(img);
     }
     
+    /**
+     * Draw the open level-selection 
+     * Current level highlighted
+     */
     public void buildPanel(int tick)
     {
         GreenfootImage img = new GreenfootImage(W, H);

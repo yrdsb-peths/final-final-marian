@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndScreen here.
+ * EndScreen displays the final results after a game ends
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li 
+ * @version Jun 7 2026
  */
 public class EndScreen extends Actor
 {
@@ -19,6 +19,9 @@ public class EndScreen extends Actor
     
     GreenfootImage bgImage;
     
+    /**
+     * Build an EndScreen with the given type, score, and level
+     */
     public EndScreen(String type, int score, int level)
     {
         this.type = type;
@@ -29,7 +32,9 @@ public class EndScreen extends Actor
         draw(0);
     }
     
-    
+    /**
+     * Called every frame
+     */    
     public void act()
     {
         animTick++;
@@ -39,6 +44,9 @@ public class EndScreen extends Actor
         }
     }
     
+    /**
+     * Redraws the end screen image 
+     */
     private void draw(int tick)
     {
         GreenfootImage img = new GreenfootImage(W, H);
@@ -83,17 +91,25 @@ public class EndScreen extends Actor
         img.drawRect(cardX, cardY, cardW, cardH);
         img.drawRect(cardX + 2, cardY + 2, cardW - 4, cardH - 4);
         
+        /**
+         * Final score line
+         */
         img.setFont(new Font("Times New Roman", true, false, 28));
         img.setColor(new Color(255, 240, 100));
         String scoreStr = "Final Score:  " + score;
         img.drawString(scoreStr, W / 2 - scoreStr.length() * 8, cardY + 50);
         
-        
+        /**
+         * Level info line
+         */
         img.setFont(new Font("Times New Roman", false, true, 20));
         img.setColor(new Color(220, 220, 220));
         String levelStr = win ? "All 10 levels conquered!" : "Reached Level " + level;
         img.drawString(levelStr, W / 2 - levelStr.length() * 6, cardY + 88);
         
+        /**
+         * Congratulations message
+         */
         if (win)
         {
             img.setFont(new Font("Times New Roman", true, false, 24));
@@ -109,6 +125,9 @@ public class EndScreen extends Actor
             img.drawString(msg, W / 2 - msg.length() * 5, cardY + 130);
         }
         
+        /**
+         * Restart button
+         */
         int btnPulse = (int)(Math.sin(tick * 0.09) * 8);
         int btnW = 260 + btnPulse;
         int btnH = 52;
