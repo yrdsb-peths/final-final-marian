@@ -1,16 +1,20 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
- * Write a description of class TitleScreen here.
+ * TitleScreen displays the game's title page
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li
+ * @version Jun 7 2026
  */
 public class TitleScreen extends Actor
 {
     static final int W = SniperWorld.SW;
     static final int H = SniperWorld.SH;
     
+    /**
+     * Build a TitleScreen
+     * Fill the full screen
+     */
     public TitleScreen()
     {
         GreenfootImage img = new GreenfootImage("titlePage.png");
@@ -18,6 +22,9 @@ public class TitleScreen extends Actor
         setImage(img);
     }
     
+    /**
+     * Called every frame
+     */
     public void act()
     {
         // Add your action code here.

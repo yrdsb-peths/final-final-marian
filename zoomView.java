@@ -1,10 +1,10 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;  
 
 /**
  * ZoomView renders the sniper scope overlay when the player zooms in
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Marian Li
+ * @version Jun 7 2026
  */
 public class ZoomView extends Actor
 {
@@ -16,17 +16,26 @@ public class ZoomView extends Actor
     boolean active = false;
     SniperWorld world;
     
+    /**
+     * Build a ZoomView linked to the given world
+     */
     public ZoomView(SniperWorld w)
     {
         this.world = w;
         buildOff();
     }
     
+    /**
+     * Called every frame
+     */
     public void act()
     {
         
     }
     
+    /**
+     * Activates or deactivates the scope overlay
+     */
     public void setActive(boolean on)
     {
         active = on;
@@ -40,6 +49,9 @@ public class ZoomView extends Actor
         
     }
     
+    /**
+     * Builds and sets the full sniper scope overlay image
+     */
     public void buildOn()
     {
         GreenfootImage img = new GreenfootImage(IMG_W, IMG_H);
@@ -77,6 +89,9 @@ public class ZoomView extends Actor
             img.drawOval(cx-R-i,cy-R-i, (R+i)*2, (R+i)*2);
         }
         
+        /**
+         * Inner highlight
+         */
         img.setColor(new Color(180,255,180,80));
         img.drawOval(cx-R+3, cy-R+3, (R-3)*2, (R-3)*2);
         
@@ -84,11 +99,15 @@ public class ZoomView extends Actor
         Color hairColor = new Color(40,220, 40, 210);
         img.setColor(hairColor);
         
-        //horizontal
+        /**
+         * horizontal
+         */
         img.drawLine(cx-R+12, cy, cx-gap, cy);
         img.drawLine(cx+gap, cy, cx+R-12, cy);
         
-        //vertical
+        /**
+         * vertical
+         */
         img.drawLine(cx, cy-R+12, cx, cy-gap);
         img.drawLine(cx, cy+gap, cx, cy+R-12);
         
@@ -129,6 +148,9 @@ public class ZoomView extends Actor
         setImage(img);
     }
     
+    /**
+     * Sets the image to a 1x1 transparent pixel so the actor is invisible
+     */
     public void buildOff()
     {
         GreenfootImage img = new GreenfootImage(1, 1);
