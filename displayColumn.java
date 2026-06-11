@@ -2,6 +2,7 @@ import greenfoot.*;
 
 /**
  * DisplayColumn is the heads up display overlay for the Alien Lurk game
+ * Draws the HUD, score, lives, alien counter, and game messages 
  * 
  * @author Marian Li
  * @version Jun 7 2026

@@ -1,8 +1,15 @@
 import greenfoot.*;
 
+/**
+ * SoundManager centralises all audio playback for the Alien Lurk game
+ * Include background music, kill, level-clear, and game-over sounds.
+ * 
+ * @author Marian Li
+ * @version Jun 7 2026
+ */
 public class SoundManager  
 {
-    // instance variables - replace the example below with your own
+    
     private GreenfootSound bgMusic;
     private GreenfootSound killSound;
     private GreenfootSound levelClearSound;
@@ -10,6 +17,10 @@ public class SoundManager
 
     private boolean musicPlaying = false;
     
+    /**
+     * Build a SoundManager and loads all audio files
+     * Volume levels are set to keep audio balanced relative to each other
+     */
     public SoundManager()
     {
         bgMusic = new GreenfootSound("backgroundMusic.mp3");
@@ -22,7 +33,10 @@ public class SoundManager
         levelClearSound.setVolume(85);
         gameOverSound.setVolume(85);
     }
-
+    
+    /**
+     * Starts the background music loop if it is not already playing
+     */
     public void startMusic()
     {
         if (!musicPlaying)
@@ -32,18 +46,27 @@ public class SoundManager
         }
     }
     
+    /**
+     * Stops the background music
+     */
     public void stopMusic()
     {
         bgMusic.stop();
         musicPlaying = false;
     }
     
+    /**
+     * Play the kill sound effect
+     */
     public void playKill()
     {
         killSound.stop();
         killSound.play();
     }
     
+    /**
+     * Stops the background music and play the level clear sound
+     */
     public void playLevelClear()
     {
         stopMusic();
@@ -51,6 +74,9 @@ public class SoundManager
         levelClearSound.play();
     }
     
+    /**
+     * Stop the background music and plays the game-over sound
+     */
     public void playGameOver()
     {
         stopMusic();
@@ -58,6 +84,9 @@ public class SoundManager
         gameOverSound.play();
     }
     
+    /**
+     * Resume the background music loop
+     */
     public void resumeMusic()
     {
         if (!musicPlaying)

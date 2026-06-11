@@ -5,6 +5,8 @@ import java.util.List;
 /**
  * SniperWorld is the main game world for "Alien Lurk"
  * It manages all game phases, controls the entire game
+ * Main world class that controls the game state, levels, scoring, 
+ * zooming, shooting, and win/loss conditions 
  * 
  * @author Marian Li
  * @version Jun 7 2026

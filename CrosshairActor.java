@@ -2,6 +2,7 @@ import greenfoot.*;
 
 /**
  * CrosshairActor is an animated sniper crosshair at the center of the scope
+ * Draws the animated crosshair in the center of the scope
  * 
  * @author Marian Li 
  * @version Jun 7 2026

@@ -2,6 +2,7 @@ import greenfoot.*;
 
 /**
  * LevelSelector provides a clickable panel that lets the player jump to any level
+ * Allows the player to jump to different levels
  * 
  * @author Marian Li
  * @version Jun 7 2026

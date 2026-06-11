@@ -2,6 +2,8 @@ import greenfoot.*;
 
 /**
  * Alien is an actor that represents a single enemy in the Alien Lurk 
+ * Represents each alien, including camouflage, animation, 
+ * peeking, and death animation 
  * 
  * @author Marian Li
  * @version Jun 7 2026

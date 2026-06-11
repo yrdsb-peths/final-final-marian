@@ -2,6 +2,7 @@ import greenfoot.*;
 
 /**
  * ZoomView renders the sniper scope overlay when the player zooms in
+ * Draws the sniper scope overlay
  * 
  * @author Marian Li
  * @version Jun 7 2026
@@ -162,16 +163,6 @@ public class ZoomView extends Actor
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 }
